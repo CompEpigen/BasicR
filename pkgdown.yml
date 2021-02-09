@@ -4,8 +4,8 @@ pkgdown_sha: ~
 articles:
   HOWTO_BUILD_WORKSHOP: HOWTO_BUILD_WORKSHOP.html
   workshop_example: workshop_example.html
-last_built: 2021-02-09T09:51Z
+last_built: 2021-02-09T15:38Z
 urls:
-  reference: https://seandavi.github.io/BuildABiocWorkshop/reference
-  article: https://seandavi.github.io/BuildABiocWorkshop/articles
+  reference: https://CompEpigen.github.io/BasicR/reference
+  article: https://CompEpigen.github.io/BasicR/articles
 
