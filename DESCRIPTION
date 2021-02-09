@@ -17,6 +17,7 @@ Depends:
     pkgdown
 Suggests: 
     knitr,
+    Hmisc,
     rmarkdown,
     tidyverse,
     workflowr,
