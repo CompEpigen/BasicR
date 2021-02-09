@@ -1,0 +1,86 @@
+---
+title: "Functions, exercises"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Functions, exercises}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+1. Write a function that divides two numbers. If the divider is zero, it shouldn't try the division, but give a message about it. 
+
+```{r}
+my_first_function <- function(num1, num2){
+  if (num2==0){
+    stop("Not working")
+}
+  res <- num1/num2
+  return(res)
+}
+
+```
+
+
+2. Write a function that changes all vowels of a string to e-s.
+
+```{r}
+esperente <- function(c){
+  gsub("[aoiu]", "e", c)
+}
+
+```
+
+
+3. Add a checking part, that checks if the input is indeed one character and it has vowels in it. If not, it should give a message. 
+
+```{r}
+esperente <- function(c){
+  if (!is.character(c)){
+    message("Not a character")
+  }
+  if (length(c)!=1){
+    message("Too many elements!")
+  }
+  if (!grepl("[aoiu]", c)){
+    message("The result will be the same!")
+  }
+  
+  gsub("[aoiu]", "e", c)
+}
+
+```
+
+4.  Write a function that calculates the variance of a vector.
+
+$$Var(x)=\frac 1{n-1}\sum_{i=1}^{n} (x_{i}-\overline{x})^2$$
+where 
+$$\overline{x}=\frac{\sum_{i=1}^{n}x_{i}}n$$
+```{r}
+variance <- function(num){
+  
+  sum((num-mean(num))^2)/(length(num)-1)
+  
+}
+
+```
+
+
+5. Add the respective checking codes. 
+
+```{r}
+
+```
+
+6. Add a warning, if the class of the input vector is not numeric, but can be coarced as one. 
+
+```{r}
+
+```
+
+7. Add errors is the checking codes fail. 
+
+```{r}
+
+```
+
+

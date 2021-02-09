@@ -1,0 +1,161 @@
+---
+title: "Data types, solutions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data types, solutions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Exercises with vectors
+
+1. Create the following vectors: `r c(1,1,3,4,5)` and `r c(2, 2, 5, 4, 1)` 
+2. Find the minimum of both vectors
+3. Find the common minimum of the vectors
+3. Summarize the vectors element-wise and all elements. 
+4  create the element-wise squere root of the element-wise sum of the vectors.
+5. order both vectors in decreasing order
+6. find the elements that are duplicated in the vectors.
+7. find out which element of vector one is in vector 2. 
+8. Create one vector with 100 random numbers, between 1 and 100, with the possibility to repeat  (hint: sample function)
+9. find out, how many elements are equal to three. 
+10. do it again - random numbers
+11. do it with running the set.seed(23)
+12. change all the elements that are equal to three to 4. check your results. 
+13. create named vectors of the two first vectors. Order the second one as the first, based on the names (match)
+14. combine the two vectors
+15. Is there any element of vector two that is larger than the respective element of vector 1?
+16. Is there any element of vector two that is larger than the the largest element of vector 1?
+
+```{r}
+
+#1.
+a <- c(1,1,3,4,5)
+b <- c(2, 2, 5, 4, 1)
+#2.
+min(a)
+min(b)
+#3.
+min(c(a,b))
+min(a,b)
+#4.
+a+b
+sum(a+b)
+#5.
+sqrt(a+b)
+#6. 
+sort(a, decreasing = T)
+sort(b, decreasing = T)
+#7
+ which(duplicated(a))
+a[a==a[duplicated(a)]]
+#8
+a <- sample(1:100, 100, replace = T)
+sum(a==3)
+
+
+
+```
+
+## Exercises with data frames
+
+1. load the iris dataset (data)
+2. exctract the Petal.Lenght column as a vector. Do it by column name and column index as well. 
+3. create a data frame with the columns Sepal.Width, Sepal.Length and Species colums. 
+4. Get the maximum Petal.With for the Species setosa. 
+5. Get the second element of the Sepal.Width column
+5. How many setosa are there with the Petal.Width of 0.2
+
+```{r}
+data("iris")
+plength <- iris[,"Petal.Length"]
+plength <- iris[,3]
+iris$Petal.Length
+
+new_df <- iris[,c("Sepal.Width", "Sepal.Length", "Species")]
+new_df <- iris[,c(2,1,5)]
+max(iris[iris$Species=="setosa", "Petal.Width"])
+iris[2, "Sepal.Width"]
+sum(iris[iris$Species=="setosa", "Petal.Width"]==0.2)
+```
+
+## Exercises with regular expressions
+
+```{r}
+dataset <- data.frame(Patient.ID=c("normal_01", "normal_02", "normal_03", "tumor_01", "tumor_02", "tumor_02"), 
+                      Sentrix.position=c("A01B01", "A01B02", "A016A01", "B02A02", "C01D02", "C02C01"), Treatment=c("Treated", "Treated", "Not treated", "Treated", "Treated", "Not treated"), value=c(3.25, 3.67, 4.26, 6.24, 5.78, 7.32), row.names = c("Sample1", "Sample2", "Sample3", "Sample4", "Sample5", "Sample6"))
+```
+
+1. Create a column with sample type (tumor or normal)
+2. table treatment versus sample type
+3. add an "_" to the sample names: sample_3
+4. summarize all values that are coming from normal samples
+5. change all "A"s in the Sentrix.position column to "E"s. 
+6. change all "E"s back to "A"s, if they appear second. Do it as generalized as possible.
+
+```{r}
+#Examples:
+grep("normal", dataset$Patient.ID)
+grep("norm", dataset$Patient.ID)
+grep("nom", dataset$Patient.ID)
+grepl("normal", dataset$Patient.ID)
+grepl("[[:alpha:]]", dataset$Patient.ID)
+grepl("[[:alpha:]]{5}", dataset$Patient.ID)
+grepl("[[:alpha:]]{6}", dataset$Patient.ID)
+grepl("[[:alpha:]]_[[:digit:]]", dataset$Patient.ID)
+grepl("[[:alpha:]]{6}_[[:digit:]]{2}", dataset$Patient.ID)
+regexec("[[:alpha:]]_[[:digit:]]", dataset$Patient.ID)
+gregexpr("[[:alpha:]]_[[:digit:]]", dataset$Patient.ID)
+gsub("_", ".", dataset$Patient.ID)
+gsub(".", "_", dataset$Patient.ID)
+gsub("\\.", "_", dataset$Patient.ID)
+gsub(".", "_", dataset$Patient.ID, fixed = T)
+gsub("([[:alpha:]]{5,6})_([[:digit:]]{2})", "\\2", dataset$Patient.ID)
+gsub("([[:alpha:]]{5,6})_([[:digit:]]{2})", "\\1", dataset$Patient.ID)
+gsub("([A-Za-z]{5,6})_([[:digit:]]{2})", "\\1", dataset$Patient.ID)
+dataset$Sample_type <- gsub("([A-Za-z]{5,6})_([[:digit:]]{2})", "\\1", dataset$Patient.ID)
+
+rownames(dataset) <- gsub("Sample", "Sample_", rownames(dataset))
+
+
+
+```
+
+## Exercises with factors
+
+1. check if there are any factors in dataset. 
+2. Turn the sample type column into factors. 
+3. Add an "unknown" level
+4. Order the levels, so the first is "tumor".
+5. Order them according the the mean of value in decreasing order. 
+
+```{r}
+dataset$Sample_type <- ifelse(grepl("normal", dataset$Patient.ID), "normal", "tumor")
+dataset$Sample_type <- factor(dataset$Sample_type, levels = c("normal", "tumor"))
+dataset$Sample_type <- as.factor(dataset$Sample_type)
+dataset$Sample_type <- factor(dataset$Sample_type, levels=c("normal", "tumor", "unknown"))
+dataset$Sample_type <- factor(dataset$Sample_type, levels=c("tumor", "normal", "unknown"))
+```
+
+## Lists
+
+1. Create a list with 5 elements, each different class. 
+2. Create a list with one vector, one list, one matrix and one number. Name the list elements. Access the third element by name.
+3. Delete the second element of the above list.
+4. Add a data frame to the end of the list. Access the 3rd row, 2nd column element of that data frame. 
+5. Create a list with two elements, where each element has two sublists. 
+
+```{r}
+my_list <- list("a", c(1,2), TRUE, factor(c("apple", "oranges")), list(1,2))
+
+my_list <- list(vec=c(1,2), ll=list(1,2,3), mat=matrix(1:9, nrow=3), num=3)
+my_list[[2]] <- NULL
+
+my_list[[4]] <- data.frame(one=c(1,2), two=c("one", "two"), stringsAsFactors = F)
+
+my_list[[length(my_list)+1]] <- "empty"
+
+```
+
+
+

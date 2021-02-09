@@ -1,0 +1,136 @@
+---
+title: "Control structures, exercises"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Control structures, exercises}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## If-else statement
+
+1. load in the Orange dataset
+2. Create a new, empty variable
+3. Write an if else statement that classifies trees based on their circumference: 
+    <= 65.5 -- small
+    >65.5 & <= 161.5 -- medium
+    >161.5 large
+4. Do the same with ifelse() in one step.
+
+```{r}
+data("Orange")
+
+Hmisc::describe(Orange)
+
+Orange$cc <- NA
+#Orange$tree <- "something else"
+
+for (i in 1:nrow(Orange)){
+  print(i)
+if (Orange$circumference[i] <= 65.5){
+  Orange$cc[i] <- "small"
+} else if (Orange$circumference[i]>65.5 & Orange$circumference<=161.5){
+  Orange$cc[i] <- "medium"
+} else {
+  Orange$cc[i] <- "large"
+}
+}
+
+Orange$cc <- ifelse(Orange$circumference<=65.5, "small", 
+                    ifelse(Orange$circumference<=161.5, "medium", "large"))
+
+
+```
+
+
+## For, while loop
+
+1. for each tree (1 to 5), print the ages. 
+2. for each tree, print the age, in which they were small. 
+3. load esoph dataset. 
+4. Using for loop(s), summarize ncontrols by agegp and alcgp, skipping the category alcgp=="120+" & agegp=="25-34".
+5. Using a for loop simulate the flip a coin twenty times, keeping track of the individual outcomes (1 = heads, 0 = tails) in a vector that you preallocte.
+6. Use a while loop to investigate the number of terms required before the product 1*2*3*4*... reaches above 10 million
+7. Use a nested for loop (a for loop inside a for loop) that produces the following matrix, preallocate the matrix with NA values.
+
+```{r}
+
+Orange[Orange$Tree==1,"age"]
+
+for (i in 1:5){
+  cat("Tree: ", i, " Ages: ", paste0(Orange[Orange$Tree==i,"age"], collapse = ", "), "\n")
+}
+
+for (i in 1:5){
+  cat("Tree: ", i, " was small at age: ", paste0(Orange[Orange$Tree==i & Orange$cc=="small","age"], collapse = ", "), "\n")
+}
+
+# 0     1     2     3     4
+# 1     0     1     2     3
+# 2     1     0     1     2
+# 3     2     1     0     1
+# 4     3     2     1     0
+data("esoph")
+for (agegrp in levels(esoph$agegp)){
+  print(sum(esoph$ncontrols[esoph$agegp==agegrp]))
+}
+
+for (agegrp in levels(esoph$agegp)){
+  for (alcgrp in levels(esoph$alcgp)){
+   #print(agegrp)
+    #print(alcgrp)
+  cat("Age group: ", agegrp, ", alcohol consumption group: ", alcgrp, " number of controls: ", sum(esoph$ncontrols[esoph$alcgp==alcgrp & esoph$agegp==agegrp]), "\n")
+  }
+}
+for (agegrp in levels(esoph$agegp)){
+  for (alcgrp in levels(esoph$alcgp)){
+    if (agegrp=="25-34" & alcgrp=="120+"){
+      #next
+    } else {
+  cat("Age group: ", agegrp, ", alcohol consumption group: ", alcgrp, " number of controls: ", sum(esoph$ncontrols[esoph$alcgp==alcgrp & esoph$agegp==agegrp]), "\n")}
+  }
+}
+
+```
+
+
+## apply, lapply, etc...
+
+1. define the following dataset:
+
+```{r}
+dataset1 <- cbind(observationA = 16:8, observationB = c(20:19, 6:12))
+```
+
+2. Calculate row and column means with apply 
+3. Use apply to multiply the whole table by 3. 
+
+```{r}
+
+```
+
+
+```{r}
+#two ways
+
+multiply <- function(x, number){
+  x <- x*number
+  x
+}
+res <- apply(dataset1,2, multiply, number=3)
+
+res <- apply(dataset1,2, function(x) x*3)
+
+```
+
+4. create a list with 3 list elements. Print the length of each element. 
+
+```{r}
+lll <- list(list(1,3,5,6,1), list(5,2,1), list(6,2,5,7,3,1,9))
+```
+
+
+```{r}
+lapply(lll, length)
+```
+

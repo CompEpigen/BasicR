@@ -1,0 +1,28 @@
+---
+title: "References"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{References}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+# Resources used in the course
+
+
+The following resources were used to prepare the slides and exercises:  
+
+[LINK](https://bookdown.org/rdpeng/rprogdatascience/)
+
+[LINK](https://r4ds.had.co.nz/)
+
+[LINK](https://adv-r.hadley.nz/)
+
+[LINK](https://www.r-exercises.com/start-here-to-learn-r/)
+
+
+
+A big thank you goes to [Sean Davis](https://seandavi.github.io/) who made it possible to use Orchestra platform. 
+
+The Orchestra platform was supported by [NIH](https://www.nih.gov/)
+
+Artwork by @allison_horst

@@ -1,0 +1,451 @@
+---
+title: "R Data types"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{R Data types}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Primitive types
+
+## Numeric and integer
+
+```{r, results='asis'}
+
+x <- 1
+y <- 2L
+
+cat("R is non-declarative. It means we don't have to declare the type of variables before creating them. \n It also means that the class (type) of the variables will be assigned automatically!")
+
+
+class(x)
+class(y)
+
+cat("Change the class of a variable - coercing \n")
+class(as.integer(x))
+
+z <- 1.314
+v <- 1.678
+v2 <- 2.1
+class(z)
+
+
+print(as.integer(z))
+print(as.integer(v))
+print(as.integer(v2))
+
+```
+
+## Character
+
+```{r}
+
+a <- "a"
+a1 <- 'b'
+
+b <- "The red fox"
+class(a)
+class(a1)
+class(b)
+
+
+#"Careful!"
+c <- "1"
+class(c)
+
+```
+
+## Logical 
+
+```{r}
+
+a <- TRUE
+b <- FALSE
+
+print(a)
+class(a)
+#BUT!
+
+c <- "TRUE"
+
+class(c)
+
+print(as.integer(a))
+print(as.integer(b))
+
+a <- as.logical(0L)
+b <- as.logical(1)
+print(a)
+print(b)
+
+```
+
+
+## Operators
+
+### Arithmetic operators
+
+| Operator | Description |
+|:---------:|:------------:|
+|     +	   |   Addition  |
+|     -	   |   Substraction |
+|     *	   |   Multiplication |
+|     /	   |  Division  |
+|     ^	   |   Exponent |
+|%%	| Modulus (Remainder from division) |
+|%/%	| Integer Division |
+
+### Relational operators
+
+| Operator | Description |
+|:---------:|:------------:|
+|<	| Less than |
+|>	| Greater than |
+|<=	| Less than or equal to |
+|>=	| Greater than or equal to |
+|==	| Equal to |
+|!=	| Not equal to |
+
+### Logical operators
+
+| Operator | Description |
+|:---------:|:------------:|
+|!	| Logical NOT | 
+|&	 | Element-wise logical AND |
+|&&	| Logical AND |
+||	| Element-wise logical OR |
+|||	| Logical OR |
+
+### Assignment operators 
+
+| Operator | Description |
+|:---------:|:------------:|
+|<-, <<-, =	 | Leftwards assignment |
+|->, ->>	| Rightwards assignment |
+
+## Operations with primitive types
+
+```{r}
+
+num1 <- 15.12
+num2 <- 6.54
+num3 <- 1
+
+char1 <- "a"
+char2 <- "b"
+char3 <- "1"
+
+logic1 <- TRUE
+logic2 <- FALSE
+
+num1+num2
+
+num1-num2
+
+num1*num2
+
+num1/num2
+
+num2^2
+
+num1%%num2
+
+num1%/%num2
+
+try(char1+num1)
+try(char3+num1)
+
+try(as.numeric(char1)+num1)
+try(as.numeric(char3)+num1)
+
+try(logic1+logic2)
+try(num1+logic1)
+
+num1<num2
+num1!=num2
+num1==num2
+
+
+try(char1<char2) 
+# alphabetical order 
+try(char1==char2)
+try(char1!=char2)
+#But!
+
+try(char1>num2)
+try(char1<=num3)
+try(char3<=num3)
+
+
+
+logic1<logic2
+logic1!=logic2
+logic1==logic2
+
+#Logical operators
+
+TRUE & FALSE
+TRUE | FALSE
+!TRUE
+
+#Depends on your computer/locale
+
+x1 <- 0.5 - 0.3
+x2 <- 0.3 - 0.1
+x1 == x2
+
+# should use all.equal instead
+all.equal(x1, x2)
+
+#concatenate characters
+
+paste(char1, char2)
+paste(char1, char2, sep="_")
+paste0(char1, char2)
+
+
+
+```
+
+# Simple types (S3 classes) 
+
+## Vectors
+
+Vectors are 1 dimensional collection of data of the <b>same</b> type. 
+Indexing in R is always 1 based.
+
+```{r}
+#empty vector
+
+a <- vector()
+a <- c()
+
+# integer vector
+
+a <- c(1L,2L,3L)
+a <- 1:3
+
+typeof(a)
+class(a)
+
+#It can handle only one type! It will coerce the data into the most permissive type:
+b <- c(1,2,3)
+
+a <- c(1L,"two",3L)
+typeof(a)
+
+a <- c(1L,2,3L)
+typeof(a)
+
+#vector functions
+
+length(a)
+a2 <- c(a,a) #combine vectors
+a2
+
+#compare vectors
+
+a==b
+a==a
+#but!
+a==a2
+
+a <- c(TRUE, TRUE, FALSE)
+b <- c(TRUE, TRUE, TRUE)
+
+a & b
+a && b
+
+a | b
+a || b
+
+# subsetting vectors 
+# Indexing is 1-based
+
+b <- c(1,2,4, NA)
+a <- c(1,2,3)
+
+a[1]
+b[c(1,2)]
+b[1:2]
+
+a[a>2]
+b[b>2]
+b[!is.na(b)]
+which(!is.na(b))
+
+#named vectors
+
+names(a) <- c("one", "two", "three")
+
+a
+a["one"]
+
+
+paste(a, collapse = ",")
+
+#other useful functions
+
+sum(a)
+mean(a)
+median(a)
+sd(a)
+
+mean(b)
+mean(b, na.rm = T)
+
+
+
+```
+
+## Factors 
+
+Factors in R are quite unique type. It is very useful in some cases, but in my experience, it can be source of errors if not handled properly. 
+It is used for categorical variables. It is internally represented as integers, but has labels. The set of labels are fixed. 
+
+```{r}
+
+a <- factor(c("a", "b", "c", "a"), levels = c("a", "b", "c", "d"))
+a
+
+class(a)
+typeof(a)
+
+a[2] <- "d"
+#but!
+a[2] <- "e"
+
+a <- factor(c("1", "2", "3"), levels = c("1", "2", "3", "4"))
+b <- factor(c("1", "4", "3"), levels = c("1", "4", "3", "2"))
+
+as.numeric(b)==as.numeric(a)
+
+a==b
+
+sort(a)
+sort(b)
+
+as.numeric(as.character(b))==as.numeric(as.character(a))
+
+
+```
+## Date and time
+
+```{r}
+x <- as.Date("1971-01-01")
+unclass(x)
+
+typeof(x)
+
+attributes(x)
+
+current_date <- Sys.time()
+current_date
+format(current_date, "%d %b %Y")
+current_date <- Sys.Date()
+
+format(current_date-1, "%d %b %Y")
+
+```
+
+## Lists
+
+Similar to vectors, but can take lists as elements. The elements can have different types. 
+
+```{r}
+
+a <- list(c(1, 2),2,3)
+a
+
+a <- list(c(1:4), "two", "three")
+a
+
+a <- list(list(c(1, 2),2,3,4), "two", "three")
+a
+
+#can have names
+
+b <- list(numbers=c(1:4),letters=c("two", "three"))
+
+
+#referring to an element/subsetting
+
+a[[1]]
+a[[1]][[1]]
+a[[1]][[1]][1]
+
+b$letters[1]
+
+#functions
+
+length(a)
+length(a$letters)
+
+
+```
+
+## Matrix 
+
+Data format to store values in a matrix (rows and columns). The elements can be primitive types. All element has to be the same type. 
+
+```{r}
+
+letter_mat <- matrix(data=c(rep("a", 3), rep("b", 3)), nrow = 3)
+
+num_mat <- matrix(1:9, nrow=3, ncol=3)
+
+# matrix can have row names but not column names
+
+num_mat*num_mat #element-wise multiplication  
+num_mat %*% num_mat #matrix multiplication 
+t(num_mat)	#Transpose
+# many other matrix specific funtions and operators
+
+#subsetting
+
+letter_mat[1,2]
+letter_mat[1,]
+letter_mat[1:2]
+letter_mat[3]
+letter_mat[,1]
+
+#combining
+cbind(letter_mat, num_mat)
+rbind(letter_mat, letter_mat)
+
+#row and column-wise operations
+#matrixStats package - fast!
+
+
+num_mat <- matrix(runif(100), nrow=10, ncol=10)
+
+rowMeans(num_mat)	
+matrixStats::rowMeans2(num_mat)
+rowSums(num_mat)	
+colMeans(num_mat)
+colSums(num_mat)	
+
+```
+
+## Data frame
+
+2D object type. Rows and columns with names. The columns can have different element types. 
+
+
+```{r}
+
+df <- data.frame(value=c(1,2,3), "First name"=as.factor(c("John", "John", "Peter")), last_name=as.factor(c("Smith", "Black", "Rabbit")), row.names = c("Patient 1", "Patient 2", "Patient 3"))
+
+
+df[1:2,]
+
+df[c(TRUE, TRUE, FALSE),]
+
+df[c("Patient 1", "Patient 2"),]
+
+df[-3,]
+
+```
+

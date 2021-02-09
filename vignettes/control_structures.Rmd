@@ -1,0 +1,220 @@
+---
+title: "Control structures"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Control structures}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Control structures in R{.tabset .tabset-pills}
+
+
+1. If-else statement
+
+2. for cycles
+
+3. while 
+
+4. Repeat
+
+
+
+## If-else statement 
+
+Conditional execution of a code. General form:
+```{r}
+# if (<condition>){
+# what to do if true
+#} else if (<other condition>){
+# what to do if true
+#} else {
+# what to do if none of them are true
+#}
+#
+```
+
+- Condition should be logical, or (0,1). 
+- Else and if else are optional, multiple else if are possible.
+- The statement will be executed and the first! expression that is true will be evaluated. 
+- If multiple statements can be true and we want to evaluate all -> nested if statements.
+- Short version is `ifelse()`.
+
+
+## For cycle
+
+
+Iteration, repeat behaviour. 
+If we want to repeat the same command on a set of values or variables.  
+
+```{r}
+# for (i in 1:10) {
+# print(i)
+# }
+
+
+```
+
+- The value of the iterating variable (here `i`) is automatically changing in every cycle. 
+- The iterating variable can be also logical, character, list element. 
+- The return value of the iterating variable is the cycle that was run last. 
+
+
+## While
+
+
+While statements will repeat a task until a condition is met. 
+Can easily be infinite, so be careful. 
+
+
+```{r}
+
+# count <- 0
+# while(count < 10) {
+#         print(count)
+#         count <- count + 1
+# }
+
+##DO NOT RUN##
+
+# count <- 0
+# while(count < 10) {
+#         print(count)
+#         count <- count - 1
+# }
+
+```
+
+
+## Repeat
+
+`Repeat` will repeat the expression in an infinite loop. 
+To stop, the `break` command has to be used. Can be dangerous.
+
+
+```{r}
+
+#count <- 1
+# repeat {
+#         count <- count + 1
+# if (count >10)
+#break
+# }
+
+```
+
+## break and next
+
+As seen above, `break` breaks the whole loop and exits. 
+
+`next` only breaks the current iteration and the loop continues. 
+
+```{r}
+
+# for (i in 1:10) {
+# if (i==5)
+# next
+# print(i)
+# }
+
+```
+
+# Troubleshooting
+
+[**Bingo!**](https://docs.google.com/presentation/d/1nSdvByo3jtu47sXF6lybmoGbPxh5xLp8o9aeRC-Bh20/edit)
+
+Useful functions: print(), browser()
+
+```{r}
+
+ for (i in 1:10) {
+   a <- i*2
+  #browser()
+   print(i)
+ }
+
+```
+
+
+# Special looping functions{.tabset .tabset-pills}
+
+
+Widely used functions: apply, lapply, sapply, tapply
+
+## `apply()` 
+
+  works on 2D objects (data.frame, matrix)
+  
+  iterates around rows or columns
+  
+  returns vectors
+
+```{r}
+dt <- data.frame(mes1=c(2,3,4), mes2=c(3,2,1), mes3=c(2,4,6))
+rowmean <- apply(dt, 1, mean)
+rowmean
+colmean <- apply(dt, 2, mean)
+colmean
+```
+
+
+## `lapply()` 
+
+
+  Works on lists
+  
+  Iterates around list elements
+  
+  Returns a list
+  
+
+```{r}
+lt <- list(c(1,2,4), c(4,52,5,3,2), c(2,3,5,2,2))
+lapply(lt, length)
+```
+
+
+## `tapply()` 
+
+
+  Works on subsettable objects (e.g. vector)
+  
+  Subsets them by the index and applies a function 
+  
+  Returns a list
+  
+  One can use `aggregate()` instead
+  
+
+```{r}
+data(iris)
+tapply(iris$Sepal.Width, iris$Species, median)
+```
+
+
+## `sapply()`, `vapply()`
+
+
+  Similar to lapply
+  
+  Returns a lists, matrices, vectors or arrays. 
+
+
+```{r}
+
+i39 <- sapply(3:9, seq) # list of vectors
+sapply(i39, fivenum)
+vapply(i39, fivenum,
+       c(Min. = 0, "1st Qu." = 0, Median = 0, "3rd Qu." = 0, Max. = 0))
+
+```
+
+
+
