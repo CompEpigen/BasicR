@@ -3,8 +3,16 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   HOWTO_BUILD_WORKSHOP: HOWTO_BUILD_WORKSHOP.html
+  R_data_types: R_data_types.html
+  basic_functions: basic_functions.html
+  control_structures: control_structures.html
+  data_types_exercises: data_types_exercises.html
+  data_types_exercises_solutions: data_types_exercises_solutions.html
+  exercises_control: exercises_control.html
+  functions_exercises: functions_exercises.html
+  references: references.html
   workshop_example: workshop_example.html
-last_built: 2021-02-09T15:38Z
+last_built: 2021-02-09T22:50Z
 urls:
   reference: https://CompEpigen.github.io/BasicR/reference
   article: https://CompEpigen.github.io/BasicR/articles
