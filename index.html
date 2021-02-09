@@ -105,59 +105,10 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="buildabiocworkshop" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#buildabiocworkshop" class="anchor"></a>BuildABiocWorkshop</h1></div>
-<p>This package is a template for building a Bioconductor workshop. The package includes Github actions to:</p>
-<ol>
-<li>Set up bioconductor/bioconductor_docker:devel on Github resources</li>
-<li>Install package dependencies for your package (based on the <code>DESCRIPTION</code> file)</li>
-<li>Run <code><a href="https://rdrr.io/pkg/rcmdcheck/man/rcmdcheck.html">rcmdcheck::rcmdcheck</a></code>
-</li>
-<li>Build a pkgdown website and push it to github pages</li>
-<li>Build a docker image with the installed package and dependencies</li>
-</ol>
-<div id="responsibilities" class="section level2">
-<h2 class="hasAnchor">
-<a href="#responsibilities" class="anchor"></a>Responsibilities</h2>
-<p>This year, package authors will be primarily responsible for:</p>
-<ol>
-<li>Creating a landing site of their choosing for their workshops (a website). This website should be listed in the <code>DESCRIPTION</code> file as the <code>URL</code>.</li>
-<li>Creating a docker account and image that will contain workshop materials and the installed packages necessary to run those materials. The name of the resulting docker image, including “tag” if desired, should be listed in a non-standard tag, <code>DockerImage:</code> in the <code>DESCRIPTION</code> file.</li>
-</ol>
-<p>Both of those tasks can be accomplished using the Github actions included in this template package. The vignette accompanying this package describes how to accomplish both of these tasks.</p>
-</div>
-<div id="details" class="section level2">
-<h2 class="hasAnchor">
-<a href="#details" class="anchor"></a>Details</h2>
-<p>For detailed instructions, see the <code>How to build a workshop</code> article/vignette.</p>
-</div>
-<div id="results-of-successful-deployment" class="section level2">
-<h2 class="hasAnchor">
-<a href="#results-of-successful-deployment" class="anchor"></a>Results of successful deployment</h2>
-<ul>
-<li>A working docker image that contains the installed package and dependencies.</li>
-<li>An up-to-date <code>pkgdown</code> website at <a href="https://YOURUSERNAME.github.io/YOURREPOSITORYNAME/" class="uri">https://YOURUSERNAME.github.io/YOURREPOSITORYNAME/</a>
-</li>
-<li>Docker image will be tagged with <code>latest</code>, <code>sha-XXXXXX</code> where <code>XXXXXX</code> is the hash of the current <code>master</code> commit, and <code>master</code>.</li>
-</ul>
-</div>
-<div id="to-use-the-resulting-image" class="section level2">
-<h2 class="hasAnchor">
-<a href="#to-use-the-resulting-image" class="anchor"></a>To use the resulting image:</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run -e PASSWORD=<span class="op">&lt;</span>choose_a_password_for_rstudio<span class="op">&gt;</span> -p 8787:8787 YOURDOCKERIMAGENAME</span></code></pre></div>
-<p>Once running, navigate to <a href="https://localhost:8787/" class="uri">https://localhost:8787/</a> and then login with <code>rstudio</code>:<code>yourchosenpassword</code>.</p>
-<p>To try with <strong>this</strong> repository docker image:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run -e PASSWORD=abc -p 8787:8787 seandavi/buildabiocworkshop2020</span></code></pre></div>
-<p><em>NOTE</em>: Running docker that uses the password in plain text like above exposes the password to others in a multi-user system (like a shared workstation or compute node). In practice, consider using an environment variable instead of plain text to pass along passwords and other secrets in docker command lines.</p>
-</div>
-<div id="whatcha-get" class="section level2">
-<h2 class="hasAnchor">
-<a href="#whatcha-get" class="anchor"></a>Whatcha get</h2>
-<p><a href="https://seandavi.github.io/BuildABiocWorkshop" class="uri">https://seandavi.github.io/BuildABiocWorkshop</a></p>
+
+<p><a href="https://CompEpigen.github.io/BasicR" class="uri">https://CompEpigen.github.io/BasicR</a></p>
 <p><img src="https://github.com/seandavi/BuildABiocWorkshop/raw/master/inst/images/dockerhub_result.png" alt="dockerhub"></p>
-</div>
-</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
