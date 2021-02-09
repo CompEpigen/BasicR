@@ -2,7 +2,7 @@ on: [push, pull_request]
 
 env:
   cache-version: v1
-  repo-name: CompEpigen/BasicR
+  repo-name: tothreka/basicr
 
 jobs:
   job1:
