@@ -1,0 +1,135 @@
+---
+title: "Functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Funtions in R
+
+R is a function-oriented language. Basically every object manipulation is done with functions. 
+It is possible that during a data analysis we are only using functions from the different packages, but it is useful to write our own functions as well. The main purpose is to avoid code repetition. As a rule of a thumb, if you need to do the same thing more than twice -> write a function instead.
+
+
+## General syntax 
+
+```{r}
+f <- function(){
+  cat("Hello world! \n")
+}
+f()
+```
+
+- name: if we want to actually run the function
+- arguments (optional)
+- expressions - what the function is doing
+- return value (options)
+
+```{r}
+f <- function(num1, num2){
+  res <- num1+num2
+  res
+}
+f(1,2)
+```
+
+### Return value
+
+- Returns the last evaluated function
+
+- Explicitly stated. In this case, the evaluation of the function stops and exits. 
+
+```{r}
+f <- function(num1, num2){
+  res <- num1+num2
+  return(res)
+  cat("Hello world! \n")
+}
+f(1,2)
+```
+
+## Arguments
+
+- Named arguments
+- Evaluation can be position or name-wise, or even with their combination. 
+
+```{r}
+
+f <- function(num1, num2){
+  print(num1)
+  print(num2)
+}
+f(1,2)
+f(num2=2, num1=1)
+f(2, num1=1)
+try(f(2))
+```
+
+### Arguments
+
+- the arguments can have default values:
+
+```{r}
+
+f <- function(num1, num2=3){
+  print(num1)
+  #browser()
+  print(num2)
+}
+f(1,2)
+f(num2=2, num1=1)
+f(2)
+
+```
+
+### Environment
+
+The functions are working in their own environment. This environment can't be seen from the outside. E.g. if you define a variable within the function, it won't be available outside the function. There are certain rules of what variables can be seen from inside the function's environment. 
+*Lexical scoping* - searches the environment where the function was defined. 
+
+
+```{r}
+g <- function(x) { 
+         x*y
+}
+try(g(2))
+y <- 10
+g(2)
+
+g <- function(x) { 
+  a <- 12
+         x*y
+}
+a
+#but!
+x <- 1:10
+try(mean())
+
+```
+
+Why?
+
+```{r}
+
+ls(environment(g))
+
+#ls(environment(mean))
+
+search()
+```
+
+
+## Troubleshooting
+
+Due to the own environment, it can be difficult what goes wrong within the function.
+Useful functions:
+
+`traceback()`
+`browser()`
+`debug()`
+`options(error=recover)`
+`options(error=stop)`
+
