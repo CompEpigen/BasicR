@@ -9,7 +9,7 @@ Authors@R:
            comment = c(ORCID = "https://orcid.org/0000-0002-6096-1052"))
     person(given = "Rajbir Nath",
            family = "Batra",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "rajbir.batra@dkfz.de",
            comment = c(ORCID = "https://orcid.org/0000-0001-7010-8189"))
 Description: The package provides a very basic introduction into R, mostly designed for non bioinformatician researchers.
