@@ -2,7 +2,6 @@ pandoc: 2.11.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  HOWTO_BUILD_WORKSHOP: HOWTO_BUILD_WORKSHOP.html
   R_data_types: R_data_types.html
   basic_functions: basic_functions.html
   control_structures: control_structures.html
@@ -10,9 +9,11 @@ articles:
   data_types_exercises_solutions: data_types_exercises_solutions.html
   exercises_control: exercises_control.html
   functions_exercises: functions_exercises.html
+  functions_exercises_solutions: functions_exercises_solutions.html
+  intro: intro.html
+  r_functions: r_functions.html
   references: references.html
-  workshop_example: workshop_example.html
-last_built: 2021-02-10T00:12Z
+last_built: 2021-02-14T22:43Z
 urls:
   reference: https://CompEpigen.github.io/BasicR/reference
   article: https://CompEpigen.github.io/BasicR/articles

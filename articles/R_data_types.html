@@ -54,9 +54,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/HOWTO_BUILD_WORKSHOP.html">How To Build A Workshop Package</a>
-    </li>
-    <li>
       <a href="../articles/R_data_types.html">R Data types</a>
     </li>
     <li>
@@ -78,10 +75,16 @@
       <a href="../articles/functions_exercises.html">Functions, exercises</a>
     </li>
     <li>
-      <a href="../articles/references.html">References</a>
+      <a href="../articles/functions_exercises_solutions.html">Functions, solutions</a>
     </li>
     <li>
-      <a href="../articles/workshop_example.html">An Example Workshop</a>
+      <a href="../articles/intro.html">Course introduction</a>
+    </li>
+    <li>
+      <a href="../articles/r_functions.html">Functions</a>
+    </li>
+    <li>
+      <a href="../articles/references.html">References</a>
     </li>
   </ul>
 </li>
@@ -665,15 +668,15 @@
 <div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">current_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">current_date</span></code></pre></div>
-<pre><code>## [1] "2021-02-10 00:12:05 UTC"</code></pre>
+<pre><code>## [1] "2021-02-14 22:43:23 UTC"</code></pre>
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">current_date</span>, <span class="st">"%d %b %Y"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "10 Feb 2021"</code></pre>
+<pre><code>## [1] "14 Feb 2021"</code></pre>
 <div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">current_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">current_date</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"%d %b %Y"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "09 Feb 2021"</code></pre>
+<pre><code>## [1] "13 Feb 2021"</code></pre>
 </div>
 <div id="lists" class="section level2">
 <h2 class="hasAnchor">
@@ -832,24 +835,24 @@
 <span class="va">num_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">10</span>, ncol<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>   </code></pre></div>
-<pre><code>##  [1] 0.4803608 0.4735323 0.4718976 0.5203564 0.5669510 0.4795119 0.4573849
-##  [8] 0.4301852 0.4467971 0.4664017</code></pre>
+<pre><code>##  [1] 0.5128419 0.4788578 0.6732177 0.4346502 0.4239104 0.4282671 0.3443715
+##  [8] 0.5871201 0.5770955 0.3844863</code></pre>
 <div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">matrixStats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/matrixStats/man/rowMeans2.html">rowMeans2</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.4803608 0.4735323 0.4718976 0.5203564 0.5669510 0.4795119 0.4573849
-##  [8] 0.4301852 0.4467971 0.4664017</code></pre>
+<pre><code>##  [1] 0.5128419 0.4788578 0.6732177 0.4346502 0.4239104 0.4282671 0.3443715
+##  [8] 0.5871201 0.5770955 0.3844863</code></pre>
 <div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>    </code></pre></div>
-<pre><code>##  [1] 4.803608 4.735323 4.718976 5.203564 5.669510 4.795119 4.573849 4.301852
-##  [9] 4.467971 4.664017</code></pre>
+<pre><code>##  [1] 5.128419 4.788578 6.732177 4.346502 4.239104 4.282671 3.443715 5.871201
+##  [9] 5.770955 3.844863</code></pre>
 <div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.5278162 0.6816980 0.4617720 0.5513897 0.3147176 0.5353326 0.4406956
-##  [8] 0.3886048 0.4673819 0.4239704</code></pre>
+<pre><code>##  [1] 0.3533947 0.4620133 0.5090385 0.5999006 0.3628701 0.5205191 0.5290330
+##  [8] 0.4865451 0.4687162 0.5527879</code></pre>
 <div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>    </code></pre></div>
-<pre><code>##  [1] 5.278162 6.816980 4.617720 5.513897 3.147176 5.353326 4.406956 3.886048
-##  [9] 4.673819 4.239704</code></pre>
+<pre><code>##  [1] 3.533947 4.620133 5.090385 5.999006 3.628701 5.205191 5.290330 4.865451
+##  [9] 4.687162 5.527879</code></pre>
 </div>
 <div id="data-frame" class="section level2">
 <h2 class="hasAnchor">
@@ -893,7 +896,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Reka Toth.</p>
+  <p>Developed by Rajbir Nath Batra.</p>
 </div>
 
 <div class="pkgdown">
