@@ -7,6 +7,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "reka.n.toth@gmail.com",
            comment = c(ORCID = "https://orcid.org/0000-0002-6096-1052"))
+    person(given = "Rajbir Nath",
+           family = "Batra",
+           role = c("aut", "cre"),
+           email = "rajbir.batra@dkfz.de",
+           comment = c(ORCID = "https://orcid.org/0000-0001-7010-8189"))
 Description: The package provides a very basic introduction into R, mostly designed for non bioinformatician researchers.
 License: MIT + file LICENSE
 Encoding: UTF-8
