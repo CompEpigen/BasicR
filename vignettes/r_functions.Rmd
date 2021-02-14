@@ -99,14 +99,15 @@ try(g(2))
 y <- 10
 g(2)
 
-g <- function(x) { 
-  a <- 12
-         x*y
-}
-a
 #but!
 x <- 1:10
 try(mean())
+
+g <- function(x) { 
+  ab <- 12
+         x*y
+}
+try(print(ab))
 
 ```
 

@@ -1,0 +1,67 @@
+---
+title: "Course introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Course introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(intro.R)
+library(knitr)
+```
+
+
+The general structure of the course planned as:
+
+
+## Day 1 (Day 2? )
+
+* Basic R introduction
+    + Data types
+    + Control structures
+    + Functions
+    + Debugging
+
+## Day 2
+
+* Data manipulation, 
+* Data cleaning, tidying
+
+## Day 3 
+
+  * Visualization with ggplot
+  * Exploratory statistics
+  
+  
+## Day 4
+
+* Work with S4 objects 
+    +  GRanges 
+    + SummarizedExperiment
+    + example data analysis (Gene expression)
+    
+## Day 5 
+
+* Reproducible research
+  + version control, git
+  + RMarkdown
+  + workflowr
+* Good programming practice  
+
+
+
+    ```{r, echo = FALSE, out.width = "70%"}
+    knitr::include_graphics("https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/r_first_then.png?raw=true", dpi = 100)
+    ```
+
+
+
