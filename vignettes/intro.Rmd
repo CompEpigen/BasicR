@@ -27,23 +27,33 @@ The general structure of the course planned as:
     + Functions
     + Debugging
 
+
 ## Day 2
 
-* Data manipulation, 
-* Data cleaning, tidying
+* Data Import
+* Data Wrangling 
+    + Tidying 
+    + Cleaning
+    + Summarizing
+* Exploration 
+    + Visualization
+    + Descriptive Statistics
+
 
 ## Day 3 
 
-  * Visualization with ggplot
-  * Exploratory statistics
+* Inference 
+  + Statistical modeling	
+  + Interpretation
   
   
 ## Day 4
 
 * Work with S4 objects 
-    +  GRanges 
+    + GRanges 
     + SummarizedExperiment
     + example data analysis (Gene expression)
+    
     
 ## Day 5 
 
