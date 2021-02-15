@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 title: "Data Cleaning"
 output: rmarkdown::html_vignette
 vignette: >
@@ -10,6 +11,15 @@ vignette: >
 # CLEANING DATA 
 
 ## Characteristics of a clean dataset
+=======
+title: "Data cleaning, tidy data"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## CLEANING DATA - Points to note
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 - Follows a tidy data structure
 - Remove duplicate rows/values
 - Error-free (e.g. free of misspellings)
@@ -19,7 +29,11 @@ vignette: >
 - Missing data should be set as NA
 
 
+<<<<<<< HEAD
 ## Cleaning data Exercise
+=======
+## CLEANING DATA Exercise
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 
 1. Load the __tidyverse__ libraries
 
@@ -154,7 +168,11 @@ messy_data %>% pull(Age) %>% table()
 
 
 
+<<<<<<< HEAD
 # MANIPULATING DATA Exercise
+=======
+## MANIPULATING DATA Exercise
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 
 1\. We will provide some basic facts about `enzyme.level`. First let's select a group to set the standard. We will use _alive_ _females_. `Status` and `Gender` are categorical variables with the respective tags. What is the average and standard deviation of enzyme.level? 
 

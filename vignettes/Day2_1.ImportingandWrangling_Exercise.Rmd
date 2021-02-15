@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 title: "Importing and Wrangling"
 output: rmarkdown::html_vignette
 vignette: >
@@ -10,12 +11,23 @@ vignette: >
 
 Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output'.
 
+=======
+output:
+  html_document: default
+  pdf_document: default
+---
+
+Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 
 Tutorial adapted from:
 https://rafalab.github.io/dsbook/
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 # IMPORTING DATA
 
 ## Importing data from electronic spreadsheets 
@@ -62,7 +74,11 @@ head(murders)
 ```
  
 
+<<<<<<< HEAD
 # WRANGLING DATA 
+=======
+# Wrangling 
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 
 We will be using data frames or _tibbles_ for the majority of these exercises. We will focus on a specific data format referred to as _tidy_ and on specific collection of packages that are particularly helpful for working with _tidy_ data that are part of _tidyverse_.
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Visualisation with ggplot2"
 output: rmarkdown::html_vignette
@@ -8,6 +9,9 @@ vignette: >
 ---
 
 # VISUALISATION WITH ggplot2
+=======
+# Data visualisation with ggplot2 {#ggplot2}
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 
 Tutorial adapted from:
 https://rafalab.github.io/dsbook/ggplot2.html
