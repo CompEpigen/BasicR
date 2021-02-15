@@ -30,7 +30,10 @@ Suggests:
     ggplot2,
     devtools,
     DESeq2, 
-    GenomicRanges
+    GenomicRanges,
+    dslabs,
+    ggthemes,
+    ggrepel
 VignetteBuilder: knitr
 URL: https://github.com/CompEpigen/BasicR
 BugReports: https://github.com/CompEpigen/BasicR/issues
