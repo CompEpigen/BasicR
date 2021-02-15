@@ -1,0 +1,187 @@
+---
+title: "Data Cleaning"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data Cleaning}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# CLEANING DATA 
+
+## Characteristics of a clean dataset
+
+- Follows a tidy data structure
+- Remove duplicate rows/values
+- Error-free (e.g. free of misspellings)
+- Variables should have appropriate data type. e.g. numeric, character, factor etc
+- Factors (categorical/ ordinal) should have relevant levels
+- Remove incorrect/ non-relevant outliers
+- Missing data should be set as NA
+
+
+
+## CLEANING DATA Exercise
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
+
+1. Load the __tidyverse__ libraries
+
+```{r}
+library(tidyverse)
+```
+
+2. Import `messy_data.csv` data from `/BasicR/data`
+
+```{r}
+messy_data <- read_csv("../data/messy_data.csv")
+```
+
+
+3. Use `head`, `summary` and `View` to view the data. Find reasons why data is messy.
+```{r}
+head(messy_data)
+summary(messy_data)
+
+# also try View(messy_data)
+```
+
+4. Remove the column __X__. No information
+```{r}
+messy_data %>% pull(X)
+messy_data <- messy_data %>% select(-X)
+
+```
+
+
+5. Remove _Patient.id_ = NA. Multiple missing observations.
+```{r}
+tail(messy_data)
+messy_data <- messy_data %>% filter(!is.na(Patient.id))
+```
+
+
+6. Patient.id is not consistent. Use `str_replace_all` and `to_upper`
+```{r}
+messy_data<- messy_data %>% 
+  mutate(Patient.id = toupper(messy_data$Patient.id)) %>% 
+  mutate(Patient.id =  str_replace_all(messy_data$Patient.id,"tcga", "TCGA")) %>% 
+  mutate(Patient.id =  str_replace_all(messy_data$Patient.id,"TCGA ", "TCGA_")) 
+```
+
+
+
+7. Check categorical variables. 
+```{r}
+messy_data %>% pull(Gender) %>% table()
+messy_data %>% pull(Status) %>% table()
+messy_data %>% pull(Censor) %>% table()
+messy_data %>% pull(Identifier) %>% table()
+messy_data %>% pull(Classification) %>% table()
+messy_data %>% pull(Histological.subtype) %>% table()
+messy_data %>% pull(MUC1) %>% table()
+messy_data %>% pull(TNM) %>% table()
+
+```
+
+8.  _Classification_ is not an informative variables, so remove it.
+```{r}
+messy_data<-messy_data %>% select(-Classification)
+```
+
+
+
+9. _MUC1_ has an entry = ???. Put this as missing. Creating a factor variable to ensure levels of factor are ascending
+```{r}
+messy_data<-messy_data %>% mutate(MUC1=ifelse(MUC1=="???",NA,MUC1)) %>%
+    mutate(MUC1=factor(MUC1, levels = c("0", "0bis1", "1", "2", "3")))
+```
+
+
+
+10. Checking numerical variables. 
+```{r}
+
+messy_data %>% pull(Survival) %>% summary()
+messy_data %>% pull(Survival) %>% hist()
+
+messy_data %>% pull(enzyme.level) %>% summary()
+messy_data %>% pull(enzyme.level) %>% hist()
+
+messy_data %>% pull(Age) %>% summary()
+messy_data %>% pull(Age) %>% hist()
+```
+11. _enzyme.level_ has an incorrect outlier. Remove it.
+```{r}
+messy_data<-messy_data %>% mutate(enzyme.level=ifelse(enzyme.level>600,NA,enzyme.level))
+messy_data %>% pull(enzyme.level) %>% hist()
+```
+
+### <<--- OPTIONAL --->> Can move straight to MANIPULATING DATA Exercise below.
+
+12. _TNM_ contains 3 variables (columns) in 1. Use `substr` to extract the relevant position of string to get T,N and M. Convert them into __integer__ type using `as.integer`.
+```{r}
+messy_data<-messy_data %>% mutate(T=as.integer(substr(TNM, 2, 2)),
+         N=as.integer(substr(TNM, 4, 4)), 
+         M=as.integer(substr(TNM, 6, 6)))
+
+messy_data %>% pull(TNM) %>% table()
+messy_data %>% pull(T) %>% table()
+messy_data %>% pull(N) %>% table()
+messy_data %>% pull(M) %>% table()
+```
+
+13. Dates are not in __Date__ format.
+```{r}
+
+summary(messy_data)
+messy_data<-messy_data %>%  
+mutate(Date.of.surgery= as.Date(Date.of.surgery, format="%d-%b-%y")) %>%
+mutate(Date.of.birth= as.Date(Date.of.birth, format="%d/%m/%Y")) %>%
+mutate(Date.of.diagnosis= as.Date(Date.of.diagnosis, format="%d/%m/%Y")) %>%
+mutate(Time.of.death= as.Date(Time.of.death, format="%d-%b-%y"))
+summary(messy_data)
+```
+
+14. _Age_ has an incorrect outlier. Age of 6 is too low. Correct it using the Dates.
+```{r}
+messy_data %>% pull(Age) %>% summary()
+messy_data %>% pull(Age) %>% table()
+
+messy_data<-messy_data %>% mutate(Age=difftime(Date.of.diagnosis,Date.of.birth, units = "days")) %>% 
+  mutate(Age=round(Age/365, digits = 0))
+
+messy_data %>% pull(Age) %>% summary()
+messy_data %>% pull(Age) %>% table()
+
+```
+
+
+
+## MANIPULATING DATA Exercise
+>>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
+
+1\. We will provide some basic facts about `enzyme.level`. First let's select a group to set the standard. We will use _alive_ _females_. `Status` and `Gender` are categorical variables with the respective tags. What is the average and standard deviation of enzyme.level? 
+
+Hint: Use `filter` and `summarize` and use the `na.rm = TRUE` argument when computing the average and standard deviation. You can also filter the NA values using `filter`.
+```{r}
+```
+
+2\. Using a pipe, assign the average to a numeric variable `ref_avg`. Hint: Use the code similar to above and then `pull`.
+```{r}
+```
+
+3\. Now report the min and max values for the same group.
+```{r}
+```
+
+4\. Compute the average and standard deviation for females, but for each Status group separately rather than only _alive_ as in question 1.  Hint: rather than filtering by age and gender, filter by `Gender` and then use `group_by`.
+```{r}
+```
+
+5\. We can actually combine both summaries for exercises 4 and 5 into one line of code. This is because `group_by` permits us to group by more than one variable. Obtain one big summary table using `group_by(Status, Gender)`.
+```{r}
+```
+
+6\. For males, compare enzyme.level across Histological subtypes as reported in the `Histological.subtypes` variable. Order the resulting table from lowest to highest average enzyme.level.
+```{r}
+```

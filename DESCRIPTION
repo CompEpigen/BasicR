@@ -33,7 +33,8 @@ Suggests:
     GenomicRanges,
     dslabs,
     ggthemes,
-    ggrepel
+    ggrepel,
+    matrixStats
 VignetteBuilder: knitr
 URL: https://github.com/CompEpigen/BasicR
 BugReports: https://github.com/CompEpigen/BasicR/issues
