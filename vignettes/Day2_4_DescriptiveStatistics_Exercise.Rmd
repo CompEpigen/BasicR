@@ -1,0 +1,290 @@
+---
+title: "Distributions and Associations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Importing and Wrangling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Tutorial adapted from:
+https://rafalab.github.io/dsbook/
+
+# DISTRIBUTIONS
+
+Here we demonstrate how to generate plots related to distributions.
+
+Load the __tidyverse__ libraries. And load the murders dataset from the dslabs package.
+
+```{r}
+library(tidyverse)
+library(dslabs)
+data(murders)
+```
+
+
+## Barplots
+
+To generate a barplot we can use the `geom_bar` geometry. The default is to count the number of each category and draw a bar. Here is the plot for the regions of the US.
+
+```{r barplot-geom}
+murders %>% ggplot(aes(region)) + geom_bar()
+```
+
+We often already have a table with a distribution that we want to present as a barplot. Here is an example of such a table:
+
+```{r}
+tab <- murders %>% 
+  count(region) %>% 
+  mutate(proportion = n/sum(n))
+tab
+```
+
+We no longer want `geom_bar` to count, but rather just plot a bar to the height provided by the `proportion` variable. For this we need to provide `x` (the categories) and `y` (the values) and use the `stat="identity"` option. 
+
+```{r region-freq-barplot}
+tab %>% ggplot(aes(region, proportion)) + geom_bar(stat = "identity")
+```
+
+## Histograms 
+
+To generate histograms we use `geom_histogram`. By looking at the help file for this function, we learn that the only required argument is `x`, the variable for which we will construct a histogram. We dropped the `x` because we know it is the first argument.
+The code looks like this:
+
+Load the heights dataset from the dslabs package.
+
+```{r}
+
+data("heights")
+
+heights %>% 
+  filter(sex == "Female") %>% 
+  ggplot(aes(height)) + 
+  geom_histogram()
+```
+
+If we run the code above, it gives us a message:
+
+> `stat_bin()` using `bins = 30`. Pick better value with
+`binwidth`.
+ 
+We previously used a bin size of 1 inch, so the code looks like this:
+
+```{r}
+heights %>% 
+  filter(sex == "Female") %>% 
+  ggplot(aes(height)) + 
+  geom_histogram(binwidth = 1)
+```
+
+Finally, if for aesthetic reasons we want to add color, we use the arguments described in the help file. We also add labels and a title:
+
+```{r height-histogram-geom}
+heights %>% 
+  filter(sex == "Female") %>% 
+  ggplot(aes(height)) +
+  geom_histogram(binwidth = 1, fill = "blue", col = "black") +
+  xlab("Male heights in inches") + 
+  ggtitle("Histogram")
+```
+
+## Density plots
+
+To create a smooth density, we use the `geom_density`. To make a smooth density plot with the data previously shown as a histogram we can use this code:
+
+```{r}
+heights %>% 
+  filter(sex == "Female") %>%
+  ggplot(aes(height)) +
+  geom_density()
+```
+
+To fill in with color, we can use the `fill` argument.
+
+```{r ggplot-density}
+heights %>% 
+  filter(sex == "Female") %>%
+  ggplot(aes(height)) +
+  geom_density(fill="blue")
+```
+
+To change the smoothness of the density, we use the `adjust` argument to multiply the default value by that `adjust`. For example, if we want the bandwidth to be twice as big we use:
+
+```{r eval = FALSE}
+heights %>% 
+  filter(sex == "Female") + 
+  geom_density(fill="blue", adjust = 2)
+```
+
+## Boxplots
+
+The geometry for boxplot is `geom_boxplot`. Boxplots are useful for comparing distributions. For example, below are the previously shown heights for women, but compared to men. For this geometry, we need arguments `x` as the categories, and `y` as the values. 
+
+```{r female-male-boxplots-geom, echo=FALSE}
+heights %>% ggplot(aes(sex, height)) +
+  geom_boxplot()
+```
+
+## QQ-plots 
+
+For qq-plots we use the `geom_qq` geometry.  Here is the qqplot for men heights.
+We need to standardise the data first using scale and then make a qqplot against the standard normal. 
+
+```{r ggplot-qq-standard-units}
+heights %>% 
+  filter(sex=="Male") %>%
+  ggplot(aes(sample = scale(height))) + 
+  geom_qq() +
+  geom_abline()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+# ASSOCIATIONS
+
+Relatively simple __ggplot2__ code can create insightful plots. 
+
+We will be using the `gapminder` dataset provided in __dslabs__. 
+
+```{r load libraries, message=FALSE, echo=TRUE}
+data(gapminder)
+gapminder %>% as_tibble()
+```
+
+## Bar plots
+
+Which country do you think had the highest child mortality rates in 2015? Sri Lanka or Turkey?
+
+```{r, message=FALSE}
+gapminder %>% 
+  filter(year == 2015 & country %in% c("Sri Lanka","Turkey")) %>% 
+  select(country, infant_mortality)
+
+gapminder %>% 
+  filter(year == 2015 & country %in% c("Sri Lanka","Turkey")) %>% 
+  select(country, infant_mortality) %>% 
+  ggplot(aes(country,infant_mortality,fill=country)) +
+  geom_bar(stat="identity")
+```
+Turkey has the higher infant mortality rate. 
+
+## Scatterplots
+
+Investigate the life expectancy versus fertility rates (average number of children per woman) in 1962.
+
+```{r fertility-versus-life-expectancy-1962, warning=FALSE}
+filter(gapminder, year == 1962) %>%
+  ggplot(aes(fertility, life_expectancy)) +
+  geom_point()
+```
+
+Most points fall into two distinct categories: 
+
+1. Life expectancy around 70 years and 3 or fewer children per family.
+2. Life expectancy lower than 65 years and more than 5 children per family. 
+
+To confirm that indeed these countries are from the regions we expect, we can use color to represent continent. 
+
+```{r fertility-versus-life-expectancy-1962-with-color}
+filter(gapminder, year == 1962) %>%
+  ggplot( aes(fertility, life_expectancy, color = continent)) +
+  geom_point() 
+```
+
+
+## Faceting
+
+We could easily plot the 2012 data in the same way we did for 1962. To make comparisons, however, side by side plots are preferable. In __ggplot2__, we can achieve this by _faceting_ variables: 
+
+We add a layer with the function `facet_grid`, which automatically separates the plots. 
+
+
+```{r fertility-versus-life-expectancy-two-years, warning=FALSE, out.width="100%", fig.height=3}
+filter(gapminder, year%in%c(1962, 2012)) %>%
+  ggplot(aes(fertility, life_expectancy, col = continent)) +
+  geom_point() +
+  facet_grid(. ~ year)
+```
+
+This plot clearly shows that the majority of countries have moved from the _developing world_ cluster to the _western world_ one. In 2012, the western versus developing world view no longer makes sense. This is particularly clear when comparing Europe to Asia, the latter of which includes several countries that have made great improvements. 
+
+## Data transformations
+
+
+The `gapminder` data table includes a column with the countries' gross domestic product (GDP). GDP measures the market value of goods and services produced by a country in a year. The GDP per person is often used as a rough summary of a country's wealth. Here we divide this quantity by 365 to obtain the more interpretable measure _dollars per day_.  
+
+
+```{r}
+gapminder <- gapminder %>%  mutate(dollars_per_day = gdp/population/365)
+```
+
+### Log transformation
+
+Here is a histogram of per day incomes from 1970:
+
+```{r dollars-per-day-distribution}
+gapminder %>% 
+  filter(year == 1970 & !is.na(gdp)) %>%
+  ggplot(aes(dollars_per_day)) + 
+  geom_histogram(binwidth = 1, color = "black")
+```
+
+
+In this plot, we see that for the majority of countries, averages are below \$10 a day. The plot is not very informative about countries with values below \$10 a day.
+
+It might be more informative to quickly be able to see how many countries have average daily incomes of about $1 (extremely poor), \$2 (very poor), \$4 (poor), \$8 (middle), \$16 (well off), \$32 (rich), \$64 (very rich) per day. These changes are multiplicative and log transformations convert multiplicative changes into additive ones: when using base 2, a doubling of a value turns into an increase by 1. 
+
+Here is the distribution if we apply a log base 2 transform:
+```{r dollars-per-day-distribution-log}
+gapminder %>% 
+  filter(year == 1970 & !is.na(gdp)) %>%
+  ggplot(aes(dollars_per_day)) + 
+    scale_x_continuous(trans = "log2") + 
+  geom_histogram(binwidth = 1, color = "black")
+```
+
+In a way this provides a _close-up_ of the mid to lower income countries.
+
+## Comparing multiple distributions with boxplots and ridge plots
+
+In this section we demonstrate how to visualize and compare distributions across groups.
+
+### Boxplots 
+
+Look at GDP between 1970 and 2010 over all continents. 
+
+```{r income-hist-west-v-developing-two-years}
+gapminder %>% 
+  filter(year %in% c(1970, 2010) & !is.na(gdp)) %>%
+  ggplot(aes(continent,gdp,fill=factor(year))) + 
+  scale_y_log10() +
+  geom_boxplot() 
+```
+
+
+## Exercises 
+
+
+1\. Load the __tidyverse__ libraries. And load the murders dataset from the dslabs package.
+
+2\. Make a histogram of the population
+
+3\. Instead of a histogram, make a smooth density plot. 
+
+4\. Make a density plot for  region South and region West separately. We can do this using the `filter` and `color` arguments.
+
+5\. Assign groups through the `fill` argument instead of `color`. This has the added benefit that it uses colors to distinguish the groups. However, here the second density is drawn over the other. We can make the curves more visible by using alpha blending to add transparency. Set the alpha parameter to 0.2 in the `geom_density` function to make this change.
+
+
+
+
+    

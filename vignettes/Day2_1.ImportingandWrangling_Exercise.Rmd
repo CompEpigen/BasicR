@@ -62,11 +62,8 @@ head(murders)
 ```
  
 
-<<<<<<< HEAD
-# WRANGLING DATA 
-=======
+
 # Wrangling 
->>>>>>> 98e2c0088ac4a44201037ada9b7486120c3cd9cc
 
 We will be using data frames or _tibbles_ for the majority of these exercises. We will focus on a specific data format referred to as _tidy_ and on specific collection of packages that are particularly helpful for working with _tidy_ data that are part of _tidyverse_.
 
