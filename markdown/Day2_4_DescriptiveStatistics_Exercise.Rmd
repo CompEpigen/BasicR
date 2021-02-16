@@ -1,12 +1,12 @@
----
-title: "Descriptive Statistics"
-output: 
-  html_document:
-    highlight: tango
-    toc: true
-    toc_float:
-      collapsed: true
----
+# ---
+# title: "Descriptive Statistics"
+# output: 
+#   html_document:
+#     highlight: tango
+#     toc: true
+#     toc_float:
+#       collapsed: true
+# ---
 
 
 Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output'.
