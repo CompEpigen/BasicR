@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Data Cleaning</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Data Cleaning</h1>
+
+
+
+<div id="cleaning-data" class="section level1">
+<h1>CLEANING DATA</h1>
+<div id="characteristics-of-a-clean-dataset" class="section level2">
+<h2>Characteristics of a clean dataset</h2>
+<ul>
+<li>Follows a tidy data structure</li>
+<li>Remove duplicate rows/values</li>
+<li>Error-free (e.g. free of misspellings)</li>
+<li>Variables should have appropriate data type. e.g. numeric, character, factor etc</li>
+<li>Factors (categorical/ ordinal) should have relevant levels</li>
+<li>Remove incorrect/ non-relevant outliers</li>
+<li>Missing data should be set as NA</li>
+</ul>
+</div>
+<div id="cleaning-data-exercise" class="section level2">
+<h2>CLEANING DATA Exercise</h2>
+<ol style="list-style-type: decimal">
+<li>Load the <strong>tidyverse</strong> libraries</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.6     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Import <code>messy_data.csv</code> data from <code>/BasicR/data</code></li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>messy_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;../data/messy_data.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   Patient.id = col_character(),
+##   Age = col_double(),
+##   Gender = col_character(),
+##   Date.of.birth = col_character(),
+##   Date.of.diagnosis = col_character(),
+##   Date.of.surgery = col_character(),
+##   Status = col_character(),
+##   Survival = col_double(),
+##   Censor = col_double(),
+##   Time.of.death = col_character(),
+##   Identifier = col_double(),
+##   Classification = col_character(),
+##   Histological.subtype = col_character(),
+##   enzyme.level = col_double(),
+##   MUC1 = col_character(),
+##   T = col_character(),
+##   TNM = col_character(),
+##   X = col_logical()
+## )</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Use <code>head</code>, <code>summary</code> and <code>View</code> to view the data. Identify reasons why data is not in perfect order for analysis.</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">head</span>(messy_data)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 18
+##   Patient.id   Age Gender Date.of.birth Date.of.diagnos… Date.of.surgery Status
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt; 
+## 1 TCGA_234      42 m      4/1/1968      4/1/2010         5-May-10        dead  
+## 2 TCGA_236      62 m      2/1/1948      2/1/2010         7-Mar-10        alive 
+## 3 TCGA_363      33 m      4/1/1979      4/1/2012         5-May-12        alive 
+## 4 TCGA 603      36 m      6/1/1976      6/1/2012         5-Jul-12        alive 
+## 5 tcga_049      90 m      3/1/1922      3/1/2012         4-Apr-12        dead  
+## 6 TCGA 604      46 f      9/1/1960      9/1/2006         5-Oct-06        dead  
+## # … with 11 more variables: Survival &lt;dbl&gt;, Censor &lt;dbl&gt;, Time.of.death &lt;chr&gt;,
+## #   Identifier &lt;dbl&gt;, Classification &lt;chr&gt;, Histological.subtype &lt;chr&gt;,
+## #   enzyme.level &lt;dbl&gt;, MUC1 &lt;chr&gt;, T &lt;chr&gt;, TNM &lt;chr&gt;, X &lt;lgl&gt;</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">summary</span>(messy_data)</span></code></pre></div>
+<pre><code>##   Patient.id             Age           Gender          Date.of.birth     
+##  Length:25          Min.   : 6.00   Length:25          Length:25         
+##  Class :character   1st Qu.:36.00   Class :character   Class :character  
+##  Mode  :character   Median :46.00   Mode  :character   Mode  :character  
+##                     Mean   :51.11                                        
+##                     3rd Qu.:65.00                                        
+##                     Max.   :96.00                                        
+##                     NA&#39;s   :7                                            
+##  Date.of.diagnosis  Date.of.surgery       Status             Survival    
+##  Length:25          Length:25          Length:25          Min.   : 8.00  
+##  Class :character   Class :character   Class :character   1st Qu.:28.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :36.00  
+##                                                           Mean   :38.29  
+##                                                           3rd Qu.:53.00  
+##                                                           Max.   :64.00  
+##                                                           NA&#39;s   :8      
+##      Censor       Time.of.death        Identifier    Classification    
+##  Min.   :0.0000   Length:25          Min.   : 49.0   Length:25         
+##  1st Qu.:0.0000   Class :character   1st Qu.:603.2   Class :character  
+##  Median :0.0000   Mode  :character   Median :604.0   Mode  :character  
+##  Mean   :0.4706                      Mean   :518.7                     
+##  3rd Qu.:1.0000                      3rd Qu.:604.0                     
+##  Max.   :1.0000                      Max.   :604.0                     
+##  NA&#39;s   :8                           NA&#39;s   :7                         
+##  Histological.subtype  enzyme.level         MUC1                T            
+##  Length:25            Min.   :  0.090   Length:25          Length:25         
+##  Class :character     1st Qu.:  0.135   Class :character   Class :character  
+##  Mode  :character     Median :  0.240   Mode  :character   Mode  :character  
+##                       Mean   : 38.213                                        
+##                       3rd Qu.:  0.310                                        
+##                       Max.   :684.000                                        
+##                       NA&#39;s   :7                                              
+##      TNM               X          
+##  Length:25          Mode:logical  
+##  Class :character   NA&#39;s:25       
+##  Mode  :character                 
+##                                   
+##                                   
+##                                   
+## </code></pre>
+<p>Also try <code>View(messy_data)</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">View</span>(messy_data)</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Remove the column <em>X</em>. There are only NAs present in the variable.</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(X)</span></code></pre></div>
+<pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>messy_data &lt;-<span class="st"> </span>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>X)</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Remove observations with <em>Patient.id</em> marked as NA. Multiple missing rows need to be removed.</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">tail</span>(messy_data)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 17
+##   Patient.id   Age Gender Date.of.birth Date.of.diagnos… Date.of.surgery Status
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt; 
+## 1 &lt;NA&gt;          NA &lt;NA&gt;   &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;  
+## 2 &lt;NA&gt;          NA &lt;NA&gt;   &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;  
+## 3 &lt;NA&gt;          NA &lt;NA&gt;   &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;  
+## 4 &lt;NA&gt;          NA &lt;NA&gt;   &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;  
+## 5 &lt;NA&gt;          NA &lt;NA&gt;   &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;  
+## 6 &lt;NA&gt;          NA &lt;NA&gt;   &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;  
+## # … with 10 more variables: Survival &lt;dbl&gt;, Censor &lt;dbl&gt;, Time.of.death &lt;chr&gt;,
+## #   Identifier &lt;dbl&gt;, Classification &lt;chr&gt;, Histological.subtype &lt;chr&gt;,
+## #   enzyme.level &lt;dbl&gt;, MUC1 &lt;chr&gt;, T &lt;chr&gt;, TNM &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>messy_data &lt;-<span class="st"> </span>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Patient.id))</span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><em>Patient.id</em> values are not consistent. <em>TCGA </em> as prefix is used in different forms. Use <code>str_replace_all</code> and <code>to_upper</code> to fix this.</li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>messy_data&lt;-<span class="st"> </span>messy_data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Patient.id =</span> <span class="kw">toupper</span>(messy_data<span class="op">$</span>Patient.id)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Patient.id =</span>  <span class="kw">str_replace_all</span>(messy_data<span class="op">$</span>Patient.id,<span class="st">&quot;tcga&quot;</span>, <span class="st">&quot;TCGA&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Patient.id =</span>  <span class="kw">str_replace_all</span>(messy_data<span class="op">$</span>Patient.id,<span class="st">&quot;TCGA &quot;</span>, <span class="st">&quot;TCGA_&quot;</span>)) </span></code></pre></div>
+<ol start="7" style="list-style-type: decimal">
+<li>Check categorical variables.</li>
+</ol>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Gender) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##  f  m 
+## 10  8</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Status) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+## alive  dead 
+##     9     9</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Censor) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+## 0 1 
+## 9 8</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Identifier) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##  49 234 236 363 603 604 
+##   1   1   1   1   1  13</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Classification) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+## new_m42_cancer 
+##              1</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Histological.subtype) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##      invasive         MANEC      mucinous           NOS NOS/papillary 
+##             1             1             2            10             3 
+##     papillary 
+##             1</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(MUC1) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##   ???     0 0bis1     1     2     3 
+##     1    10     1     1     3     1</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(TNM) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+## T1N0M0 T1N1M0 T2N0M0 T2N1M0 T3N0M0 T3N1M0 
+##      3      2     10      1      1      1</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li><em>Classification</em> is not an informative variables, so remove it.</li>
+</ol>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>messy_data&lt;-messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>Classification)</span></code></pre></div>
+<ol start="9" style="list-style-type: decimal">
+<li><em>MUC1</em> has an entry = ???. Mark this as missing. Create a factor variable to ensure levels of factor <em>MUC1</em> are relevant (in ascending order).</li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>messy_data&lt;-messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">MUC1=</span><span class="kw">ifelse</span>(MUC1<span class="op">==</span><span class="st">&quot;???&quot;</span>,<span class="ot">NA</span>,MUC1)) <span class="op">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">MUC1=</span><span class="kw">factor</span>(MUC1, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;0bis1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>)))</span></code></pre></div>
+<ol start="10" style="list-style-type: decimal">
+<li>Checking numerical variables.</li>
+</ol>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Survival) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    8.00   28.00   36.00   38.29   53.00   64.00       1</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Survival) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">hist</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAC7lBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3f39/g4ODh4eHi4uLj4+Pk5OTn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////gv4I0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAMPklEQVR4nO2de3xMdxbATybxiLwkUkIitAlB4rFJSViKaMWiW5YWDZtGqLI06t3Y1COolPVou5KuVcSrulFWk3pbrHeV2iq63qrYtchL5Pff3ntnJkb7u3PuuHfM5Jfz/eM3N2fOOfc338/ce5O5N3OBEXYBV0/A3SFBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIgQQhkCAEEoRAghCeiqA+ACflx10AaYy9Ak5f6apnvZ4zqJUbCMoB2Gbs+q7VAAgxqJcLBGX16fPYs8YL2gMw5o5BvVwgKAlqS8tfJYb4xkz9iVUKKs5M8G/Sa7tScH1oWLOZ59u23cRYHIT9b6j/dbbh1w28I8dckZ7s2/a1U90DYrMr1if4Rv25ciU29dsAcoyau6sErQaF5ndYD/kxnt1sbo5Mk/Iuh8tLvQGWK4JeBri+wPxss7uMRUCQn7z8koc8rrOsw6Ze6WjUC3tagqxYBTWB+oWHJwIsYKMlG5EpbBTAwD3rG4HpG8aGAwza9CZYBHnWGjb5ti+0WLf3dwAFsiDonvc6yOMQgL6WddjUj44ECI8zaO4uEnQfIO5Hxsb/Ic+yiRV5QusKxg4ADGd3vOB5aXmwRZAs5eqAAdK4A2CJLMj7DiurK48l/hBjXoVtfZXcxDJyJN6uFFQRDODVbeFZ+VlF0LcAs+UfGkJndhwgW1rcbhFUR+lRfmBRSgjAYllQFLOOTSHavArb+iop6Of7oB2NlTdUl8sWQQWKDcZiIZzlA6yRFs9YBIXK8bX1pOwAiyBZinmsFGRbL4QgVl6YGiS95h4WQacAsuSUUEhg/1A8yAdr805aWj7rBRFLTx1UF2RbL4KgY9Onn2cPttYHX4ug+yZoJ2VICt5gVwG6MWW3WynoE4DPGftIXZBtvQiCDklH6T1nv2wIbRjLBfgLY2kAQw58HgqmY4x1BRhR8I6HjaBPAV4+uDZYXdBj9TaCUuLkg4EOXCToYT/LUW2lsjP2SGI3Is2BDCnviI+89IyNoEtKJBpgppog23obQfEAV3XN3VX7oJKchIY1w3pKx25WMS7Ys6t0oM5o79e4106l4HTvZ8JHHbIRxHZ38ImZXdY+umuZiiDb+ion6MnYB7DJ1XNwT0FFjYJb3mYlr4DHFVdPxT0FsUkAPh1DlB2Oy3FLQWxDYmitpr0KXT0NGfcU5EaQIAQShECCEEgQAglCIEEIJAiBBCGQIAQShECCEEgQAglCIEEIJAiBBCGQIAQShECCEEgQAglCIEEIJAiBBCGQIAQShECCEEgQAglCIEEIJAjBEEGnBlpp/y8j+knsHchlhkHttWOIoFsbrTTbZ0Q/ibndF3LIaGpQe+0YvInFHzKo0dy00xy2kyArJAiBBCGQIAQShECCEEgQAglCIEEIJAiBBCGQIAT3EzT/shHtBBYU4NEl95budgILKtk82KdG3w33tRRtvqH2jMCCJO5v7F/bd+hXD/CiXWrPiC2InctuDX4eYV+qZiebgcTkZH6CyIKOZ7SCBm/ueHBhhOm6WnYnaBIvAS3i4x+L//e2hefFFRQG4en7HspLd2GvWvaDiYFfsF9uYrsDrXhtdngGHYGL2wmadsy6VP6Dnb3QlsDxZcbug2I28VR0dDtB7Nryu+za/EtYwYW4DpeqpaDDgb432eUQ/yNYRemYoGopqHPPe9JY9mpXvCY//azaUwIL8i1QHnb662onsKDIZcpDboSudgILmh6YX84ebq03UVc7gQWVp5q8QmpC/xJd7QQWxNj3q7KWf6OzndCCjEBgQTff6ij/mRU/Wlc7gQX1Dxk1USZTVzuBBfmfM6KdwIJalRrRTmBBsz80op3AgtbH9ZixWEZXO4EFhVnR1U5gQcYgtqCSH3S3E1nQssYewF5d8CRNruVaeU7142xVDBC0O5eLIRe1Vwpa4TFyA7BFnsueoMl3I62EOH6PFQMEJXQbwKHtuCd4Kb+gUlDLseym9ENmtL1sFNdsYglreMlTjRVUp1ARtL2OrnYCC2qXqQjKjtHVTmBBf60x6xBcyfVdqKudwILYYvk2F7WmVOhqJ7Igdu/IZ7tVr2vRiNCCjEBgQX0sTNbVTmBBKRK/71W3+Qpd7QQWZOZO9090tRNeENvTWlc78QUV+OpqJ7CgNQpLwjVc3WEHgQXVVqiTcEZXO4EFGQMJKr6kXOhZpHIhrMCCgh8RqZpdNs4LImUHy1XECixopanJxEVTIgKW5OTkqmbPrzUrr4vfxWopaFBimTSWJ71lLztqlrR1xfWrloIa5CsPm0PtZXvL95r+2nT0Z4IOxlrx+7vDM3CaoNfqx/IY7Nj0Kl9oY/Mp1aUN7WU3myePKTHFjwsqPm4l5qBjq2dOFPRi0mcclgc7Nr3KFzo6YKs0FtQdZi87q3bGAcZuNew1vgpsYi8O4UX3Pamgol4QFB0EcbftZZdO9ZbvsHy2ldrdygUWxNihhelzC7FPXB8q92Ws2K9ypBNaUNU99fx0BOk49fwIgQXpOfX8CIEFiXfq2WBB4p16NliQeKeeDRYk3qlno49iwp16NlZQ6cVi0U49GyvoDOQ5/NI4iCuIJf7G4ZfGQWBB66LiMv5URS8kfyqCqvKF5M4XtOtHh18XH1EFwd+kIUvfOUMFoQUpwxNRdsL6kWtrRVDRv7mc4EabOyIojNviV+4uaH/lJ+I+W+SfMwPCONSrwYuGeTggaK0nt4XJ3QU9wryJvTuON7XFEbzo6VoOCFrdiNvChwSRIHcX5BccHKwMwQ7WVxNB6TaQII4gwyBBJIgEkSASRIJIEAkiQSSIBKlQfsPOd+FWe0En00JMYApJPUWCuOz3jpqasz5nehtvlatZq7ugzv3LlceKES+QIB7+mywL/wywDZ+fYiV0pyIoNpVDYiAvmurZjxcNbc2L9vbltqjRlxdt2pIXfd2pgtpNsix8EGsbvvK+leHKfwGdep9HVgo3nJLFi054mxedM4zbInUWLzp5LDd5tTMFrYAh+V+fP7ElzbTKsdVUXRw8iuXFKN/IH7PGObNxQxz+Pejy4cLD2G2ACrJ4Xwj1cTr3e6LSP+ZFs2byosvGcVtM+JAXnZfJi+ZMd7IgLQxtP5LDgCBedGTQAF60fVtedLAft0WD3/KinaJ50WE+biDo3Tm86Gn+FcYx3/Kic6fxohdUzs1zfytbOpYX/cm1f4uZIUEIJAiBBCGQIAQShECCEEgQQmY2L3qmLTe53Xe86Ad/5EWv8O8b0/koL7psPC/6nxBuC1WcIuh+ETd804FoEf9ulPzkW9x/MCm560ALVZwiSCRIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIwQmCPo0NeOGAhrzSOVF1WmaXaa140ClZa/djSYHPZjsyFTsYL2gNvLOpn/dJPHFq7bnbZtQap7ViIiRr7H7Md0j+JI/FDkzFDsYLaj2YsfKoEWjeQ+93pXFWjWJtFVsCmyRr7N6vpzRM6K99KvYwXNBlkL+xcmpDNPFKlPzmz4NLmiouBH4Rn6yt+x3PDQ5OxR6GCzoMx6Uxx1SuKbuoS8RDLRWlceOZLEhL7mnYmFQ34r1SB6eiguGCCuG8NK4HTd8jcyLO76CmijEdyhRBWnK3Q70ZBXN9Rjs2FTWc8A46IY25pjI89dYbpn4XNVXkB11ilncQ3n0vyF/lN89034GpqOOEfZD8r/PTNZw7ONco+qjGinQws1lL9/Mg3yZvG3yvfSp2MP4oFp3GWEWbVDSvolVSsdaKs7skWiTuuqGle3n4bGl8r3aZ5qnYw3hBeaaFB0d6q11p/ogDMH65TJHWCnkT05T7Uc0Z22bUzNI+FXs44Tfple38u2j41uRcy2ZzXWuFIkhTbk47n5icCu1TsQf9LYZAghBIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQiBBCCQIgQQhkCAEEoRAghBIEAIJQqgCgnIHlbhw7VVAUBrcc+Haq4Ag10KCEEgQAglCIEEIJAiBBCGQIAQShECCEEgQAglCIEEIJAiBBCGQIAQShECCEEgQAglCIEEIJAiBBCGQIAQShPB/I7wayL+brhQAAAAASUVORK5CYII=" /><!-- --></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(enzyme.level) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.090   0.135   0.240  38.213   0.310 684.000</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(enzyme.level) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">hist</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Age) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    6.00   36.00   46.00   51.11   65.00   96.00</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Age) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">hist</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<ol start="11" style="list-style-type: decimal">
+<li><em>enzyme.level</em> has an incorrect outlier. Identify and mark it as missing.</li>
+</ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>messy_data&lt;-messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">enzyme.level=</span><span class="kw">ifelse</span>(enzyme.level<span class="op">&gt;</span><span class="dv">600</span>,<span class="ot">NA</span>,enzyme.level))</span>
+<span id="cb46-2"><a href="#cb46-2"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(enzyme.level) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">hist</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div id="move-past-optional-cleaning-steps-directly-to-manipulating-data-exercise-below." class="section level3">
+<h3>Move PAST OPTIONAL CLEANING STEPS directly to MANIPULATING DATA Exercise below.</h3>
+</div>
+<div id="optional-cleaning-steps" class="section level3">
+<h3>&lt;&lt;— OPTIONAL CLEANING STEPS —&gt;&gt;</h3>
+<ol start="12" style="list-style-type: decimal">
+<li><em>TNM</em> contains 3 variables (columns) in 1. Use <code>substr</code> to extract the relevant position of string to get T,N and M. Convert them into <strong>integer</strong> type using <code>as.integer</code>.</li>
+</ol>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>messy_data&lt;-messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">T=</span><span class="kw">as.integer</span>(<span class="kw">substr</span>(TNM, <span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb47-2"><a href="#cb47-2"></a>         <span class="dt">N=</span><span class="kw">as.integer</span>(<span class="kw">substr</span>(TNM, <span class="dv">4</span>, <span class="dv">4</span>)), </span>
+<span id="cb47-3"><a href="#cb47-3"></a>         <span class="dt">M=</span><span class="kw">as.integer</span>(<span class="kw">substr</span>(TNM, <span class="dv">6</span>, <span class="dv">6</span>)))</span>
+<span id="cb47-4"><a href="#cb47-4"></a></span>
+<span id="cb47-5"><a href="#cb47-5"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(TNM) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+## T1N0M0 T1N1M0 T2N0M0 T2N1M0 T3N0M0 T3N1M0 
+##      3      2     10      1      1      1</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(T) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##  1  2  3 
+##  5 11  2</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(N) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##  0  1 
+## 14  4</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(M) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##  0 
+## 18</code></pre>
+<ol start="13" style="list-style-type: decimal">
+<li>Dates are not in <strong>Date</strong> format.</li>
+</ol>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="kw">summary</span>(messy_data)</span></code></pre></div>
+<pre><code>##   Patient.id             Age           Gender          Date.of.birth     
+##  Length:18          Min.   : 6.00   Length:18          Length:18         
+##  Class :character   1st Qu.:36.00   Class :character   Class :character  
+##  Mode  :character   Median :46.00   Mode  :character   Mode  :character  
+##                     Mean   :51.11                                        
+##                     3rd Qu.:65.00                                        
+##                     Max.   :96.00                                        
+##                                                                          
+##  Date.of.diagnosis  Date.of.surgery       Status             Survival    
+##  Length:18          Length:18          Length:18          Min.   : 8.00  
+##  Class :character   Class :character   Class :character   1st Qu.:28.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :36.00  
+##                                                           Mean   :38.29  
+##                                                           3rd Qu.:53.00  
+##                                                           Max.   :64.00  
+##                                                           NA&#39;s   :1      
+##      Censor       Time.of.death        Identifier    Histological.subtype
+##  Min.   :0.0000   Length:18          Min.   : 49.0   Length:18           
+##  1st Qu.:0.0000   Class :character   1st Qu.:603.2   Class :character    
+##  Median :0.0000   Mode  :character   Median :604.0   Mode  :character    
+##  Mean   :0.4706                      Mean   :518.7                       
+##  3rd Qu.:1.0000                      3rd Qu.:604.0                       
+##  Max.   :1.0000                      Max.   :604.0                       
+##  NA&#39;s   :1                                                               
+##   enzyme.level       MUC1          T             TNM           
+##  Min.   :0.0900   0    :10   Min.   :1.000   Length:18         
+##  1st Qu.:0.1300   0bis1: 1   1st Qu.:1.250   Class :character  
+##  Median :0.2400   1    : 1   Median :2.000   Mode  :character  
+##  Mean   :0.2259   2    : 3   Mean   :1.833                     
+##  3rd Qu.:0.2800   3    : 1   3rd Qu.:2.000                     
+##  Max.   :0.4300   NA&#39;s : 2   Max.   :3.000                     
+##  NA&#39;s   :1                                                     
+##        N                M    
+##  Min.   :0.0000   Min.   :0  
+##  1st Qu.:0.0000   1st Qu.:0  
+##  Median :0.0000   Median :0  
+##  Mean   :0.2222   Mean   :0  
+##  3rd Qu.:0.0000   3rd Qu.:0  
+##  Max.   :1.0000   Max.   :0  
+## </code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>messy_data&lt;-messy_data <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb57-2"><a href="#cb57-2"></a><span class="kw">mutate</span>(<span class="dt">Date.of.surgery=</span> <span class="kw">as.Date</span>(Date.of.surgery, <span class="dt">format=</span><span class="st">&quot;%d-%b-%y&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3"></a><span class="kw">mutate</span>(<span class="dt">Date.of.birth=</span> <span class="kw">as.Date</span>(Date.of.birth, <span class="dt">format=</span><span class="st">&quot;%d/%m/%Y&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb57-4"><a href="#cb57-4"></a><span class="kw">mutate</span>(<span class="dt">Date.of.diagnosis=</span> <span class="kw">as.Date</span>(Date.of.diagnosis, <span class="dt">format=</span><span class="st">&quot;%d/%m/%Y&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb57-5"><a href="#cb57-5"></a><span class="kw">mutate</span>(<span class="dt">Time.of.death=</span> <span class="kw">as.Date</span>(Time.of.death, <span class="dt">format=</span><span class="st">&quot;%d-%b-%y&quot;</span>))</span>
+<span id="cb57-6"><a href="#cb57-6"></a><span class="kw">summary</span>(messy_data)</span></code></pre></div>
+<pre><code>##   Patient.id             Age           Gender          Date.of.birth       
+##  Length:18          Min.   : 6.00   Length:18          Min.   :1908-01-03  
+##  Class :character   1st Qu.:36.00   Class :character   1st Qu.:1945-04-09  
+##  Mode  :character   Median :46.00   Mode  :character   Median :1958-07-08  
+##                     Mean   :51.11                      Mean   :1956-05-27  
+##                     3rd Qu.:65.00                      3rd Qu.:1974-01-05  
+##                     Max.   :96.00                      Max.   :1999-01-12  
+##                                                                            
+##  Date.of.diagnosis    Date.of.surgery         Status             Survival    
+##  Min.   :2002-01-06   Min.   :2002-07-05   Length:18          Min.   : 8.00  
+##  1st Qu.:2010-01-02   1st Qu.:2010-03-21   Class :character   1st Qu.:28.00  
+##  Median :2012-01-03   Median :2012-04-19   Mode  :character   Median :36.00  
+##  Mean   :2010-11-05   Mean   :2011-04-27                      Mean   :38.29  
+##  3rd Qu.:2014-01-02   3rd Qu.:2014-03-28                      3rd Qu.:53.00  
+##  Max.   :2015-01-12   Max.   :2016-01-04                      Max.   :64.00  
+##                                                               NA&#39;s   :1      
+##      Censor       Time.of.death          Identifier    Histological.subtype
+##  Min.   :0.0000   Min.   :2006-11-10   Min.   : 49.0   Length:18           
+##  1st Qu.:0.0000   1st Qu.:2010-08-17   1st Qu.:603.2   Class :character    
+##  Median :0.0000   Median :2012-02-10   Median :604.0   Mode  :character    
+##  Mean   :0.4706   Mean   :2011-11-19   Mean   :518.7                       
+##  3rd Qu.:1.0000   3rd Qu.:2013-09-26   3rd Qu.:604.0                       
+##  Max.   :1.0000   Max.   :2015-01-08   Max.   :604.0                       
+##  NA&#39;s   :1        NA&#39;s   :10                                               
+##   enzyme.level       MUC1          T             TNM           
+##  Min.   :0.0900   0    :10   Min.   :1.000   Length:18         
+##  1st Qu.:0.1300   0bis1: 1   1st Qu.:1.250   Class :character  
+##  Median :0.2400   1    : 1   Median :2.000   Mode  :character  
+##  Mean   :0.2259   2    : 3   Mean   :1.833                     
+##  3rd Qu.:0.2800   3    : 1   3rd Qu.:2.000                     
+##  Max.   :0.4300   NA&#39;s : 2   Max.   :3.000                     
+##  NA&#39;s   :1                                                     
+##        N                M    
+##  Min.   :0.0000   Min.   :0  
+##  1st Qu.:0.0000   1st Qu.:0  
+##  Median :0.0000   Median :0  
+##  Mean   :0.2222   Mean   :0  
+##  3rd Qu.:0.0000   3rd Qu.:0  
+##  Max.   :1.0000   Max.   :0  
+## </code></pre>
+<ol start="14" style="list-style-type: decimal">
+<li><em>Age</em> has an incorrect outlier. Age of 6 is too low. Correct it using the Dates.</li>
+</ol>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Age) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    6.00   36.00   46.00   51.11   65.00   96.00</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Age) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+##  6 16 26 33 36 42 45 46 56 62 66 76 86 90 96 
+##  1  1  1  1  2  1  1  2  2  1  1  1  1  1  1</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a>messy_data&lt;-messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Age=</span><span class="kw">difftime</span>(Date.of.diagnosis,Date.of.birth, <span class="dt">units =</span> <span class="st">&quot;days&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb63-2"><a href="#cb63-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Age=</span><span class="kw">round</span>(Age<span class="op">/</span><span class="dv">365</span>, <span class="dt">digits =</span> <span class="dv">0</span>))</span>
+<span id="cb63-3"><a href="#cb63-3"></a></span>
+<span id="cb63-4"><a href="#cb63-4"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Age) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<pre><code>##   Length    Class     Mode 
+##       18 difftime  numeric</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>messy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Age) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">table</span>()</span></code></pre></div>
+<pre><code>## .
+## 16 26 33 36 42 45 46 56 62 66 76 86 90 96 
+##  1  1  1  2  1  1  2  2  1  2  1  1  1  1</code></pre>
+</div>
+<div id="optional-cleaning-steps-complete" class="section level3">
+<h3>&lt;&lt;— OPTIONAL CLEANING STEPS COMPLETE —&gt;&gt;</h3>
+</div>
+</div>
+<div id="manipulating-data-exercise" class="section level2">
+<h2>MANIPULATING DATA Exercise</h2>
+<p>1. Focus on <em>alive</em> <em>females</em>. <code>Status</code> and <code>Gender</code> are categorical variables with the respective tags. What is the average and standard deviation of <code>enzyme.level</code> for this subset of patients?</p>
+<p>Hint: Use <code>filter</code> and <code>summarize</code> and use the <code>na.rm = TRUE</code> argument when computing the average and standard deviation. You can also filter the NA values using <code>filter</code>.</p>
+<p>2. Using a pipe, assign the average to a numeric variable <code>ref_avg</code>. Hint: Use the code similar to above and then <code>pull</code>.</p>
+<p>3. Now report the min and max values for the same group.</p>
+<p>4. Compute the average and standard deviation for females, but for each Status group separately rather than only <em>alive</em> as in question 1. Hint: rather than filtering by age and gender, filter by <code>Gender</code> and then use <code>group_by</code>.</p>
+<p>5. We can actually combine both summaries for exercises 4 and 5 into one line of code. This is because <code>group_by</code> permits us to group by more than one variable. Obtain one big summary table using <code>group_by(Status, Gender)</code>.</p>
+<p>6. For males, compare enzyme.level across Histological subtypes as reported in the <code>Histological.subtypes</code> variable. Order the resulting table from lowest to highest average <code>enzyme.level</code>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
