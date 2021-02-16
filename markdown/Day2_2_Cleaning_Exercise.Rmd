@@ -1,10 +1,11 @@
 ---
 title: "Data Cleaning"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Data Cleaning}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: true
 ---
 
 Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output'.
@@ -32,7 +33,7 @@ Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Outp
 library(tidyverse)
 ```
 
-2. Import `messy_data.csv` data from `/BasicR/inst/extdata`
+2. Import `messy_data.csv` data from `/home/rstudio/inst/extdata`
 
 ```{r}
 messy_data <- read_csv("../inst/extdata/messy_data.csv")
@@ -185,14 +186,14 @@ Hint: Use `filter` and `summarize` and use the `na.rm = TRUE` argument when comp
 ```{r}
 ```
 
-4\. Compute the average and standard deviation for females, but for each Status group separately rather than only _alive_ as in question 1.  Hint: rather than filtering by age and gender, filter by `Gender` and then use `group_by`.
+4\. Compute the average and standard deviation for females, but for each Status group separately rather than only _alive_ as in question 1.  Hint: rather than filtering by Status and gender, filter by `Gender` and then use `group_by`.
 ```{r}
 ```
 
-5\. We can actually combine both summaries for exercises 4 and 5 into one line of code. This is because `group_by` permits us to group by more than one variable. Obtain one big summary table using `group_by(Status, Gender)`.
+5\. We can actually combine both summaries for males and females into one line of code. This is because `group_by` permits us to group by more than one variable. Obtain one big summary table using `group_by(Status, Gender)`.
 ```{r}
 ```
 
-6\. For males, compare enzyme.level across Histological subtypes as reported in the `Histological.subtypes` variable. Order the resulting table from lowest to highest average `enzyme.level`.
+6\. For males, compare enzyme.level across Histological subtypes as reported in the `Histological.subtype` variable. Order the resulting table from lowest to highest average `enzyme.level`.
 ```{r}
 ```

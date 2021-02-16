@@ -243,16 +243,6 @@ The `x` and `y` mappings are inherited from those already defined in `p`, so we 
 
 ## Annotation, shapes, and adjustments
 
-We often want to add shapes or annotation to figures that are not derived directly from the aesthetic mapping; examples include labels, boxes, shaded areas, and lines.
-
-Here we want to add a line that represents the average murder rate for the entire country. Once we determine the per million rate to be $r$, this line is defined by the formula: $y = r x$, with $y$ and $x$ our axes: total murders and population in millions, respectively. In the log-scale this line turns into: $\log(y) = \log(r) + \log(x)$. So in our plot it's a line with slope 1 and intercept $\log(r)$. To compute this value, we use our __dplyr__ skills:
-
-```{r}
-r <- murders %>% 
-  summarize(rate = sum(total) /  sum(population) * 10^6) %>% 
-  pull(rate)
-```
-
 The default plots created by __ggplot2__ are already very useful. However, we frequently need to make minor tweaks to the default behavior. Although it is not always obvious how to make these even with the cheat sheet, __ggplot2__ is very flexible.
 
 For example, we can make changes to the legend via the `scale_color_discrete` function. In our plot the word _region_ is capitalized and we can change it like this:

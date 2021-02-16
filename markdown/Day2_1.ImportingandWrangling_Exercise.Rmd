@@ -1,10 +1,11 @@
 ---
 title: "Importing and Wrangling"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Importing and Wrangling}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: true
 ---
 
 
@@ -24,7 +25,7 @@ https://rafalab.github.io/dsbook/
 We recommend only using relative paths in your code. The reason is that full paths are unique to your computer and you want your code to be portable. 
 You can get the full path of your working directory without writing it out explicitly by using the `getwd` function.
 
-The current directory should be `/BasicR/markdown` If you need to change your working directory, you can use the function `setwd`
+The current directory should be `/home/rstudio/markdown` If you need to change your working directory, you can use the function `setwd`
 
 
 ```{r, eval=FALSE}
@@ -33,8 +34,8 @@ getwd()
 
 ### Identify spreadsheet you want to load
 
-Use the `dir` function to list spreadsheets available in the `/BasicsR/data` folder. Be careful of relative paths! 
-Use `../` for the parent (`/BasicsR`) directory, and then access the `inst/extdata` folder.
+Use the `dir` function to list spreadsheets available in the `/home/rstudio/inst/extdata` folder. Be careful of relative paths! 
+Use `../` for the parent (`/home/rstudio`) directory, and then access the `inst/extdata` folder.
 
 ```{r}
 dir(path="../inst/extdata")
