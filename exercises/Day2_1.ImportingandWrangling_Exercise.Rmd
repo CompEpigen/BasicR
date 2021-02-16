@@ -24,7 +24,7 @@ https://rafalab.github.io/dsbook/
 We recommend only using relative paths in your code. The reason is that full paths are unique to your computer and you want your code to be portable. 
 You can get the full path of your working directory without writing it out explicitly by using the `getwd` function.
 
-The current directory should be `/BasicR/markdown` If you need to change your working directory to `/BasicR`, you can use the function `setwd`
+The current directory should be `/BasicR/exercises` If you need to change your working directory to `/BasicR`, you can use the function `setwd`
 
 
 ```{r, eval=FALSE}
