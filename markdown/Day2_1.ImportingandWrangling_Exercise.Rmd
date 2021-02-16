@@ -1,12 +1,12 @@
-# ---
-# title: "Importing and Wrangling"
-# output: 
-#   html_document:
-#     highlight: tango
-#     toc: true
-#     toc_float:
-#       collapsed: true
-# ---
+---
+title: "Importing and Wrangling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Importing and Wrangling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
 
 Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output'.
 
@@ -34,10 +34,10 @@ getwd()
 ### Identify spreadsheet you want to load
 
 Use the `dir` function to list spreadsheets available in the `/BasicsR/data` folder. Be careful of relative paths! 
-Use `../` for the parent (`/BasicsR`) directory, and then access the `data` folder.
+Use `../` for the parent (`/BasicsR`) directory, and then access the `inst/extdata` folder.
 
 ```{r}
-dir(path="../data")
+dir(path="../inst/extdata")
 ```
 
 
@@ -48,14 +48,12 @@ Load all the tidyverse packages at once by installing and loading the __tidyvers
 
 ```{r}
 library(tidyverse)
-dat<-read.csv("../data/murders.csv")
-head(dat)
 ```
 
 And then use `read_csv` to read-in `murders.csv`
 
 ```{r}
-dat<-read.csv("../data/murders.csv")
+dat<-read.csv("../inst/extdata/murders.csv")
 head(dat)
 ```
 
