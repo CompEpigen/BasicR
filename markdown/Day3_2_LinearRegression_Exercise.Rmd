@@ -12,12 +12,6 @@ toc_float:
 Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output'.
 
 
-
-Tutorial adapted from:
-https://github.com/OpenIntroStat/oilabs-tidy/
-
-
-
 # LINEAR REGRESSION
 
 The Human Freedom Index is a report that attempts to summarize the idea of "freedom" through a bunch of different variables for many countries around the globe.
@@ -33,7 +27,7 @@ Your aim will be to summarize a few of the relationships within the data both gr
 
 In this lab, you will explore and visualize the data using the **tidyverse** suite of packages.
 
-The data can be found in the **openintro** package.
+The data can be found in the **openintro** package. The **broom** package helps us summarize regression results.
 
 Let's load the packages.
 

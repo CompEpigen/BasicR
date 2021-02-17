@@ -25,7 +25,6 @@ library(tidyverse)
 And then use `read_csv` to read-in `hip_data.csv`. Study the variables using `head`.
 
 ```{r}
-getwd()
 hip<-read.csv("../inst/extdata/hip_data.csv")
 head(hip)
 ```
@@ -187,6 +186,7 @@ p<-prop.table(t, margin =1)
 p %>% as.data.frame() %>% ggplot(aes(x=sex,y=Freq,fill=satisfaction.cat)) + geom_bar(stat="identity")
 
 ```
+
 You can get relative risk between the sexes of being satisfied at a specific level from the following command.
 
 ```{r}
