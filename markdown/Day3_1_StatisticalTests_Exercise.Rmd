@@ -46,7 +46,7 @@ Explore the distributions of ages in men and women
 hip %>% filter(!is.na(sex)) %>% ggplot(aes(sex,age)) + geom_boxplot()
 ```
 
-An unpaired t-test looks at whether the means of continuous variables differs between two groups.  For example we could see whether there is an association between the average age of men and the average age of women. You can get the means with `estimate` and the p-value with `p.value' using the accessor `$`.
+An unpaired t-test looks at whether the means of continuous variables differs between two groups.  For example we could see whether there is an association between the average age of men and the average age of women. You can get the means with `estimate` and the p-value with `p.value` using the accessor `$`.
 
 
 ```{r}
@@ -97,7 +97,7 @@ hip %>% filter(!is.na(sex)) %>% ggplot(aes(sex,age)) + geom_boxplot() + stat_com
 
 ### Paired tests
 
-The paired t-test would be used to compare the difference in repeated measures on the same individuals. For example, in the dataset,  Performance at baseline and 6-months are given by `ohs0` and `ohs6`. Use a paired t-test to analyse the difference in the distributions. Note the extra `paired` argument in the `t.test` function.
+The paired t-test would be used to compare the difference in repeated measures on the same individuals. For example, in the dataset,  Performance at baseline and 6-months are given by `ohs0` and `ohs6`. Use a paired t-test to analyse the difference in the distributions. Note the extra `paired` argument in the `t.test` function. Use the using the accessor `$` or `pull` to extract the relevant variables.
 
 
 ```{r}
@@ -182,10 +182,15 @@ t
 Use `prop.table` and  `geom_bar(stat="identity")` to report the relative frequencies of satisfaction between the sexes.
 
 ```{r}
-prop.table(t, margin =1)
+p<-prop.table(t, margin =1)
 
-prop.table(t, margin =1) %>% as.data.frame() %>% ggplot(aes(x=sex,y=Freq,fill=satisfaction.cat)) + geom_bar(stat="identity")
+p %>% as.data.frame() %>% ggplot(aes(x=sex,y=Freq,fill=satisfaction.cat)) + geom_bar(stat="identity")
 
+```
+You can get relative risk between the sexes of being satisfied at a specific level from the following command.
+
+```{r}
+p[1,]/p[2,]
 ```
 
 
@@ -194,12 +199,12 @@ Test this relationship using the `chi.test` command on the contingency table.
 ```{r}
 c<-chisq.test(t)
 c
+
 ```
 
+The relative risks are close to 1. Alongwith the test, this indicates that there is very little evidence of a relationship between satisfaction.cat and sex, with a p.value of `r round(c$p.value,4)`.
 
-This indicates that there is very little evidence of a relationship between satisfaction.cat and sex, with a p.value of `r round(c$p.value,4)`.
-
-Exercise
+## Exercise
 
 1. Check whether there is a difference in the performance at baseline `ohs0` between the males and females. Study the distributions and decide which test to use. 
 
