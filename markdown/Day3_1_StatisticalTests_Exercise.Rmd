@@ -1,0 +1,213 @@
+---
+title: "Statistical Tests"
+output:
+  html_document:
+  highlight: tango
+toc: true
+toc_float:
+  collapsed: true
+---
+
+Please go to Session on the RStudio Menu, and click on 'Restart R and Clear Output'.
+
+
+# STATISTICAL TESTS
+
+Statistical tests are used to test assertions about populations. The aim is to determine whether there is enough evidence to _reject_ a null hypothesis. This is shown by way of p-values. For normal continuous data with one or two groups of interest, the t-test (paired or unpaired) is used to compare means. For non-normal data, non-parametric tests such as the Wilcoxon Test is used that compares ranks. For  three or more groups, the ANOVA method (for normal data) compares the means with the help of variance calculations between groups and within groups. and Kruskal-Wallis test (for non-normal data) to compare ranks for non-normal data for calculations between groups and within groups
+
+
+Load all the tidyverse packages at once by installing and loading the __tidyverse__ package.
+
+```{r}
+library(tidyverse)
+```
+
+And then use `read_csv` to read-in `hip_data.csv`. Study the variables using `head`.
+
+```{r}
+getwd()
+hip<-read.csv("../inst/extdata/hip_data.csv")
+head(hip)
+```
+
+
+
+For categorical data, the chi-squared test shows if the observed values in each sub-category differ to the expected values by chance or not. 
+
+## Two-sample T-test or Wilcoxon-rank tests 
+
+T-tests or Wilcoxon-rank tests can be used to describe the association between two continuous variables.
+
+### Unpaired tests
+
+Explore the distributions of ages in men and women
+
+```{r}
+hip %>% filter(!is.na(sex)) %>% ggplot(aes(sex,age)) + geom_boxplot()
+```
+
+An unpaired t-test looks at whether the means of continuous variables differs between two groups.  For example we could see whether there is an association between the average age of men and the average age of women. You can get the means with `estimate` and the p-value with `p.value' using the accessor `$`.
+
+
+```{r}
+t<-t.test(age~sex,data=hip %>% filter(!is.na(sex)))
+t
+
+t$estimate
+t$p.value
+```
+
+This indicates that there is a difference in the mean age of men and women of `r t$estimate[2]-t$estimate[1]`, and this difference is significant with a p.value of `r round(t$p.value,8)`
+
+
+
+The `p-value` from the t-test can be added to the boxplots using `stat_compare_means` from the library `ggpubr`.
+
+```{r}
+library(ggpubr)
+hip %>% filter(!is.na(sex)) %>% ggplot(aes(sex,age)) + geom_boxplot() + stat_compare_means(method = "t.test")
+```
+
+However, check the distribution of age in men and women separately usin gthe _histogram_ and _qq-plot_. It does not look normally distributed.
+
+```{r}
+hip %>% filter(!is.na(sex)) %>% ggplot(aes(age, fill=sex)) + facet_grid(~sex) + geom_histogram()
+hip %>% filter(!is.na(sex)) %>% ggplot(aes(sample=scale(age), fill=sex)) + facet_grid(~sex) + geom_qq() + geom_abline() 
+```
+
+
+Instead of the t-test, one should use the Wilcoxon rank-sum test.
+
+```{r}
+w<-wilcox.test(age~sex,data=hip %>% filter(!is.na(sex)))
+w
+
+est<-hip %>% filter(!is.na(sex)) %>% group_by(sex) %>% summarize(median=median(age,na.rm=TRUE))
+est
+```
+
+This indicates that there is a difference in the median age of men and women of `r est[2,2]-est[1,2]`, and this difference is significant with a p.value of `r round(w$p.value,8)`
+
+
+Similarly, add the `p-value`  to the boxplots using `stat_compare_means` from the library `ggpubr`. The Wilcox-test is the default method, so we do not need to add an argument to the funciton.
+
+```{r}
+hip %>% filter(!is.na(sex)) %>% ggplot(aes(sex,age)) + geom_boxplot() + stat_compare_means()
+```
+
+### Paired tests
+
+The paired t-test would be used to compare the difference in repeated measures on the same individuals. For example, in the dataset,  Performance at baseline and 6-months are given by `ohs0` and `ohs6`. Use a paired t-test to analyse the difference in the distributions. Note the extra `paired` argument in the `t.test` function.
+
+
+```{r}
+
+t<-t.test(hip$ohs0,hip$ohs6, paired=TRUE)
+t
+
+t$estimate
+t$p.value
+```
+
+This indicates that there is a difference in the mean performance between baseline and 6 months of `r t$estimate`, and this difference is highly significant.
+
+Calculate the difference between the performances at the 2 time points and use a histogram to represent the distribution. Use `geom_vline` to draw a dotted line at 0 to represent the _Null distribution_.
+
+
+```{r}
+hip %>% mutate(diff=ohs6-ohs0) %>% ggplot(aes(diff)) + geom_histogram() +  geom_vline(xintercept = 0, lty=2) 
+```
+
+The non-parametric version is the Wilcoxon signed-rank test, and this is also significant.
+
+```{r}
+w<-wilcox.test(hip$ohs0,hip$ohs6,paired=TRUE)
+w
+
+w$p.value
+
+
+```
+
+Calculate the difference between the performances at the 2 time points and use a boxplot to represent the distribution. Use `geom_vline` to draw a dotted line at 0 to represent the _Null distribution_.
+
+
+```{r}
+hip %>% mutate(diff=ohs6-ohs0) %>% ggplot(aes(diff)) + geom_boxplot() +  geom_vline(xintercept = 0, lty=2)  + coord_flip() 
+```
+
+
+
+## ANOVA (Analysis of Variance)
+
+A one-way ANOVA can be used when there are more than two groups.  
+
+For example split the variable of satisfaction into 3 groups. 
+
+```{r}
+hip<-hip %>% mutate(satisfaction.cat=factor(ifelse(satisfaction<80,"Low",ifelse(between(satisfaction,80,90),"Medium","High")), levels=c("Low","Medium","High")))
+
+hip %>% pull(satisfaction.cat) %>% table()
+
+
+```
+
+Run an ANOVA to test the relationship between age and satisfaction.cat
+
+```{r}
+a<-aov(age~satisfaction.cat,data=hip)
+
+s<-summary(a)
+
+s
+```
+
+
+This suggests that there is very little evidence that satisfaction groups are different with respect to age. with a p-value of `r round(s[[1]][1,5],4)`
+
+## Chi-squared test
+
+To look at the association between two categorical variables we can perform a chi squared test Study the relationshipo between sex and satisfaction.cat using a  contingency table and a bar plot.
+
+
+```{r}
+
+hip %>% filter(!is.na(satisfaction.cat))  %>% filter(!is.na(sex)) %>% ggplot(aes(sex,fill=satisfaction.cat)) + geom_bar(position="dodge")
+
+t <- hip %>% select(sex,satisfaction.cat) %>% table()
+t
+```
+
+
+Use `prop.table` and  `geom_bar(stat="identity")` to report the relative frequencies of satisfaction between the sexes.
+
+```{r}
+prop.table(t, margin =1)
+
+prop.table(t, margin =1) %>% as.data.frame() %>% ggplot(aes(x=sex,y=Freq,fill=satisfaction.cat)) + geom_bar(stat="identity")
+
+```
+
+
+Test this relationship using the `chi.test` command on the contingency table.
+
+```{r}
+c<-chisq.test(t)
+c
+```
+
+
+This indicates that there is very little evidence of a relationship between satisfaction.cat and sex, with a p.value of `r round(c$p.value,4)`.
+
+Exercise
+
+1. Check whether there is a difference in the performance at baseline `ohs0` between the males and females. Study the distributions and decide which test to use. 
+
+2. We used an ANOVA to study the distribution of satisfaction.cat and age. Check the distribution of age over the 3 satisfaction.cat groups. Does it pass normality assumptions? If you are unsure, use Kruskal-Wallis test. Hint you can get information using `?kruskal.test`.
+
+3. Use ANOVA or Kruskal-Wallis test to check if there is an association between baseline ohs0 and satisfaction.cat groups.
+
+4. Create a table of retired against satisfaction groups. Does the chi-square test show an association between the two? 
+
+
+
