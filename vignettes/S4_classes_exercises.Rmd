@@ -1,0 +1,38 @@
+---
+title: "S4 classes, exercises"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{S4 classes, exercises}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(SummarizedExperiment)
+data("airway_small")
+
+#airway_small
+
+```
+
+1. Extract genes with exons overlapping the region 16:80000103-81066719
+2. Calculate the mean counts for these rows
+3. Exclude the last sample 
+
+
+```{r}
+
+
+```
+
+4. Use the dds object from previously
+5. Find the rows, where the gene expression is 0 for all the samples
+6. Exclude these rows.
+7. Run the analysis again on this subset
+8. Using the DeSeq2 vignette, find out how to do a PCA on the gene expression data. Tip: you will have to apply a variance stabilizing transformation on the count data.
+
+

@@ -1,0 +1,258 @@
+---
+title: "S4 classes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{S4 classes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+S4 classes are the perfect examples of the OO programming:
+- stricter structure
+- they have representations: a list of slots or arguments by name and class
+- the slots have to have the correct type
+- methods - they also inherit the methods from the classes of the arguments, but inheritence is between S4 classes as well. 
+- has to be created with the new constructor
+- they have accessor methods as well.
+
+```{r}
+setClass("Person", representation(name = "character", age = "numeric"))
+setClass("Employee", representation(boss = "Person"), contains = "Person")
+
+person1 <- new("Person", name="Peter", age=34)
+boss1 <- new("Employee", boss=person1, name="Lisa", age=36)
+```
+
+```{r}
+
+person1
+boss1
+
+```
+Example class: SummarizedExperiment
+
+Representation:
+
+
+`RangedSummarizedExperiment` is an extension of `SummarizedExperiment`. It uses `GRanges` to define the genomic regions. 
+
+
+```{r}
+library(SummarizedExperiment)
+data("airway_small",  package="BasicR")
+
+se <- airway_small
+
+```
+## Accessors
+
+To know all this, look for the help and the vignette. 
+
+```{r}
+colData(se)
+rowData(se)
+#assay(se)
+rowRanges(se)
+#assays(se)[[1]]
+head(assays(se)$counts)
+
+head(metadata(airway_small))
+
+```
+You can access each data "natively", and even change it, but you shouldn't do that. 
+Why? It is easy to screw it up...
+
+
+```{r}
+se@rowRanges
+se@metadata
+
+###don't do this:
+se@rowRanges <- se@rowRanges[1:3000]
+se
+se@rowRanges
+
+
+```
+## Methods 
+
+### subsetting
+
+
+```{r}
+# subsetting is very easy, just like with a data.frame
+
+se <- se[1:2000,]
+
+se <- se[,1:3]
+
+se
+
+```
+
+### Combining
+
+```{r}
+
+rowbinded <- rbind(se, se)
+rowbinded
+colbinded <- cbind(se, se)
+colbinded
+
+```
+```{r}
+roi <- GRanges(seqnames="X", ranges=99800000:99850000)
+se_1 <- subsetByOverlaps(se, roi)
+
+
+
+```
+
+## Granges and GRangesList
+
+`GRanges` objects store information about Genomic ranges with chromosome, position and additional information. Offers a wide range of functionality.
+`GRangesList` is a "grouped" version of `GRnages`, it is similar to a normal list, but with additional functionality. 
+Both of them are able to handle strand information as well.
+
+```{r}
+library(GenomicRanges)
+
+gr1 <- GRanges(
+    seqnames = "chr2",
+    ranges = IRanges(103, 106),
+    strand = "+",
+    score = 5L, GC = 0.45)
+gr2 <- GRanges(
+    seqnames = c("chr1", "chr3"),
+    ranges = IRanges(c(107, 113), width = 3),
+    strand = c("+", "-"),
+    score = 3:4, GC = c(0.3, 0.5))
+gr3 <- GRanges("chr2:102-107")
+
+gr4 <- makeGRangesFromDataFrame(data.frame(chr=c("chr1", "chr2"), 
+                                           start=c(104, 104), end=c(108, 105),
+                                           name=c("gene1", "gene2")), keep.extra.columns = T, ignore.strand = T)
+grl <- GRangesList("txA" = gr1, "txB" = gr2)
+grl
+
+#seqinfo(gr1) <- Seqinfo(genome="hg38")
+#can have names for each row
+
+
+```
+
+
+### Accessors
+
+```{r}
+seqnames(gr1)
+seqlevels(gr1)
+ranges(gr1)
+start(gr1)
+end(gr1)
+strand(gr1)
+width(gr1)
+length(gr1)
+mcols(gr4)
+mcols(gr4)$name
+
+```
+
+### Subsetting
+
+
+```{r}
+#data.frame-like
+
+gr1[1,]
+gr4[1, "name"]
+
+
+# subset function
+subset(gr1, strand == "+")
+
+```
+### Splitting and combining
+
+```{r}
+
+sp <- split(gr2, 1:2)
+split(gr4, ~ name)
+
+c(sp[[1]], sp[[2]])
+
+stack(sp, index.var="name")
+
+
+```
+### Aggregating
+
+```{r}
+aggregate(gr2, score ~ strand, mean)
+
+```
+### Interval operations
+
+```{r}
+flank(gr1, 10, both=T)
+shift(gr2, 5)
+resize(gr1, 20)
+c(gr1, gr3)
+ reduce(c(gr1, gr3)) # combines the overlapping ranges
+
+ reduce(c(gr1, gr3), ignore.strand=T)
+```
+### Comapring 2 GRanges
+
+```{r}
+union(gr2, gr4)
+
+#intersect(gr2, gr4)
+setdiff(gr2, gr4)
+
+hits <- findOverlaps(gr2, gr4, ignore.strand=TRUE)
+countOverlaps(gr2, gr4, ignore.strand=TRUE)
+subsetByOverlaps(gr2, gr4)
+
+
+```
+
+
+
+## DeSeq2
+
+
+```{r}
+library("pasilla")
+pasCts <- system.file("extdata",
+                      "pasilla_gene_counts.tsv",
+                      package="pasilla", mustWork=TRUE)
+pasAnno <- system.file("extdata",
+                       "pasilla_sample_annotation.csv",
+                       package="pasilla", mustWork=TRUE)
+cts <- as.matrix(read.csv(pasCts,sep="\t",row.names="gene_id"))
+coldata <- read.csv(pasAnno, row.names=1)
+coldata <- coldata[,c("condition","type")]
+
+rownames(coldata) <- sub("fb", "", rownames(coldata))
+cts <- cts[, rownames(coldata)]
+
+library("DESeq2")
+dds <- DESeqDataSetFromMatrix(countData = cts,
+                              colData = coldata,
+                              design = ~ condition)
+dds
+dds <- dds[1:200,]
+dds <- DESeq(dds)
+res <- results(dds)
+res
+
+
+```
+
+```
+

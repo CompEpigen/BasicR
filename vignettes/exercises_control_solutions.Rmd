@@ -1,8 +1,8 @@
 ---
-title: "Control structures, exercises"
+title: "Control structures, solutions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Control structures, exercises}
+  %\VignetteIndexEntry{Control structures, solutions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,6 +11,7 @@ vignette: >
 
 1. load in the Orange dataset
 2. Create a new, empty variable
+3. Write a for loop to iterate over the rows of the dataset
 3. Write an if else statement that classifies trees based on their circumference: 
     <= 65.5 -- small
     >65.5 & <= 161.5 -- medium
@@ -29,7 +30,7 @@ for (i in 1:nrow(Orange)){
   print(i)
 if (Orange$circumference[i] <= 65.5){
   Orange$cc[i] <- "small"
-} else if (Orange$circumference[i]>65.5 & Orange$circumference<=161.5){
+} else if (Orange$circumference[i]>65.5 & Orange$circumference[8]<=161.5){
   Orange$cc[i] <- "medium"
 } else {
   Orange$cc[i] <- "large"
@@ -106,6 +107,10 @@ dataset1 <- cbind(observationA = 16:8, observationB = c(20:19, 6:12))
 3. Use apply to multiply the whole table by 3. 
 
 ```{r}
+
+rowm <- apply(dataset1, 1, mean, na.rm=T)
+colm <- apply(dataset1, 2, mean, na.rm=T)
+
 
 ```
 
