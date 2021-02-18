@@ -57,6 +57,12 @@
       <a href="../articles/R_data_types.html">R Data types</a>
     </li>
     <li>
+      <a href="../articles/S4_classes.html">S4 classes</a>
+    </li>
+    <li>
+      <a href="../articles/S4_classes_exercises.html">S4 classes, exercises</a>
+    </li>
+    <li>
       <a href="../articles/basic_functions.html">Basic functions</a>
     </li>
     <li>
@@ -69,7 +75,10 @@
       <a href="../articles/data_types_exercises_solutions.html">Data types, solutions</a>
     </li>
     <li>
-      <a href="../articles/exercises_control.html">Control structures, exercises</a>
+      <a href="../articles/exercises_control_exercises.html">Control structures, exercises</a>
+    </li>
+    <li>
+      <a href="../articles/exercises_control_solutions.html">Control structures, solutions</a>
     </li>
     <li>
       <a href="../articles/functions_exercises.html">Functions, exercises</a>
@@ -668,15 +677,15 @@
 <div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">current_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">current_date</span></code></pre></div>
-<pre><code>## [1] "2021-02-17 14:04:55 UTC"</code></pre>
+<pre><code>## [1] "2021-02-18 01:11:26 UTC"</code></pre>
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">current_date</span>, <span class="st">"%d %b %Y"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "17 Feb 2021"</code></pre>
+<pre><code>## [1] "18 Feb 2021"</code></pre>
 <div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">current_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">current_date</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"%d %b %Y"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "16 Feb 2021"</code></pre>
+<pre><code>## [1] "17 Feb 2021"</code></pre>
 </div>
 <div id="lists" class="section level2">
 <h2 class="hasAnchor">
@@ -835,24 +844,24 @@
 <span class="va">num_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">10</span>, ncol<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>   </code></pre></div>
-<pre><code>##  [1] 0.4523548 0.3270385 0.3324366 0.4924788 0.4794975 0.5391370 0.6020453
-##  [8] 0.5988974 0.7222564 0.5810658</code></pre>
+<pre><code>##  [1] 0.4841310 0.5606779 0.4792027 0.5269526 0.4635652 0.6360924 0.4221178
+##  [8] 0.4222096 0.6992192 0.5532178</code></pre>
 <div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">matrixStats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/matrixStats/man/rowMeans2.html">rowMeans2</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.4523548 0.3270385 0.3324366 0.4924788 0.4794975 0.5391370 0.6020453
-##  [8] 0.5988974 0.7222564 0.5810658</code></pre>
+<pre><code>##  [1] 0.4841310 0.5606779 0.4792027 0.5269526 0.4635652 0.6360924 0.4221178
+##  [8] 0.4222096 0.6992192 0.5532178</code></pre>
 <div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>    </code></pre></div>
-<pre><code>##  [1] 4.523548 3.270385 3.324366 4.924788 4.794975 5.391370 6.020453 5.988974
-##  [9] 7.222564 5.810658</code></pre>
+<pre><code>##  [1] 4.841310 5.606779 4.792027 5.269526 4.635652 6.360924 4.221178 4.222096
+##  [9] 6.992192 5.532178</code></pre>
 <div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.4770814 0.4022803 0.6571810 0.6153991 0.4676879 0.5695415 0.4312715
-##  [8] 0.4038436 0.6128298 0.4900922</code></pre>
+<pre><code>##  [1] 0.5225976 0.5010115 0.6141100 0.5187718 0.4168028 0.5745147 0.6072687
+##  [8] 0.5080729 0.5282256 0.4560106</code></pre>
 <div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>    </code></pre></div>
-<pre><code>##  [1] 4.770814 4.022803 6.571810 6.153991 4.676879 5.695415 4.312715 4.038436
-##  [9] 6.128298 4.900922</code></pre>
+<pre><code>##  [1] 5.225976 5.010115 6.141100 5.187718 4.168028 5.745147 6.072687 5.080729
+##  [9] 5.282256 4.560106</code></pre>
 </div>
 <div id="data-frame" class="section level2">
 <h2 class="hasAnchor">

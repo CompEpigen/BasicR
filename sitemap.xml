@@ -4,7 +4,16 @@
     <loc>https://CompEpigen.github.io/BasicR/index.html</loc>
   </url>
   <url>
+    <loc>https://CompEpigen.github.io/BasicR/reference/airway_small.html</loc>
+  </url>
+  <url>
     <loc>https://CompEpigen.github.io/BasicR/articles/R_data_types.html</loc>
+  </url>
+  <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/S4_classes.html</loc>
+  </url>
+  <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/S4_classes_exercises.html</loc>
   </url>
   <url>
     <loc>https://CompEpigen.github.io/BasicR/articles/basic_functions.html</loc>
@@ -19,7 +28,10 @@
     <loc>https://CompEpigen.github.io/BasicR/articles/data_types_exercises_solutions.html</loc>
   </url>
   <url>
-    <loc>https://CompEpigen.github.io/BasicR/articles/exercises_control.html</loc>
+    <loc>https://CompEpigen.github.io/BasicR/articles/exercises_control_exercises.html</loc>
+  </url>
+  <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/exercises_control_solutions.html</loc>
   </url>
   <url>
     <loc>https://CompEpigen.github.io/BasicR/articles/functions_exercises.html</loc>
