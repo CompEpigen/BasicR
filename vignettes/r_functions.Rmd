@@ -1,11 +1,71 @@
 ---
-title: "Functions"
+title: "Functions, useful packages"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Functions}
+  %\VignetteIndexEntry{Functions, useful packages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+
+# Useful packages:
+
+## Interactive visualization:
+
+`plotly`
+`ggplotly`
+`Glimma`
+
+## nice tables in Rmarkdown
+
+`datatable` 
+
+## enrichment analysis 
+
+`clusterProfiler`
+
+## annotation of genomic regions
+
+`annotatr`
+
+## Gene exoression, sequencing
+
+`DESeq2`
+`EdgeR`
+
+## mutation data
+
+`MAFtools`
+
+## Visualizatio genomic regions
+
+`Gviz`
+
+## Handling genomic data (e.g. bam files)
+
+`rtracklayer`
+
+## Methylation data
+
+### Array
+
+`minfi`
+`RnBeads`
+
+### Sequencing
+
+`methrix`
+`bsseq`
+
+## Visualization, heatmaps
+
+`pheatmap`
+`Complexheatmap`
+
+## Nice colors palettes
+
+`ggsci`
+`scico`
 
 
 # Funtions in R
