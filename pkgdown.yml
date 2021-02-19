@@ -5,6 +5,7 @@ articles:
   R_data_types: R_data_types.html
   S4_classes: S4_classes.html
   S4_classes_exercises: S4_classes_exercises.html
+  assignment: assignment.html
   basic_functions: basic_functions.html
   control_structures: control_structures.html
   data_types_exercises: data_types_exercises.html
@@ -20,7 +21,7 @@ articles:
   reproducible: reproducible.html
   reproducible_solutions: reproducible_solutions.html
   set_up_git: set_up_git.html
-last_built: 2021-02-19T01:30Z
+last_built: 2021-02-19T13:49Z
 urls:
   reference: https://CompEpigen.github.io/BasicR/reference
   article: https://CompEpigen.github.io/BasicR/articles
