@@ -1,0 +1,56 @@
+---
+title: "Set up git"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Set up git}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. In the terminal, configure git
+git config --global user.name ''
+git config --global user.email ''
+
+2. create a new empty repository in github
+
+
+3. Set up an Rproject in a folder:
+
+* new project
+* project in a new directory, tick git
+
+4. configure a new remote repository:
+
+git remote add <name> https://github.com/<user>/<repo>.git
+
+5. create a new markdown file in the folder. 
+
+6. Commit it
+
+7. git push -u class master
+
+
+## New workflowr project
+
+Normally, it is enough to run wflowr_start:
+
+* sets up a git and configures
+* still need to add remote repository
+
+1. Create a new directory
+
+2. run wflow_start, add this directory and set existing=T
+
+3. Try to commit something
+
+4. Run  git branch wflow  <b0dc973>
+
+5. switch to this branch
+
+6. Commit a change
+
+7.  git push -u class master

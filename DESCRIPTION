@@ -38,7 +38,12 @@ Suggests:
     ggrepel,
     ggpubr,
     broom,
-    openintro
+    openintro,
+    TCGAbiolinks, 
+    Glimma, 
+    clusterProfiler, 
+    DOSE, 
+    org.Hs.eg.db
 VignetteBuilder: knitr
 URL: https://github.com/CompEpigen/BasicR
 BugReports: https://github.com/CompEpigen/BasicR/issues

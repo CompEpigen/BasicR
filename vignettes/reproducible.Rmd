@@ -1,0 +1,113 @@
+---
+title: "Reproducible programming"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reproducible programming}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Reproducible programming
+
+## General rules
+
+1. the scripts should be written in a way, that either you, or someone else will be able to run it anytime.
+
+2. Clean structure, according to the best programming practices
+
+* Variable names according the convention (use _. not " " or -, don't use keywords)
+* `<-` instead of `=`
+* spaces before and after
+* Indentation
+* curly brackets
+* don't store unnecessary objects
+* avoid repetition
+
+- comment your codes in detail
+- Use sessionInfo() to know your package versions
+- Use as generalized code as possible - use names and regular expressions instead of indices. 
+- if possible, define your paths at the beginning and use paste() or file.path() later. Or use relative paths
+- try to do everything from R, because changes in e.g. excel are undocumented.
+
+
+## Use version control
+
+- git is an easy tool to do version control.
+
+    ```{r, echo = FALSE, out.width = "70%"}
+    knitr::include_graphics("https://git-scm.com/book/en/v2/images/lifecycle.png", dpi = 100)
+    ```
+
+
+
+## Rmarkdown, R notebooks
+
+* Rmarkdown document, with code chuncks
+* Markdown language is easy to learn, see the cheatsheat
+* many templates available - flexible themes
+* Description, codes and figures at the same place. 
+* Figures are saved separately as well - or use links
+* Appearance of the code depends on the chunk options.
+
+Show code and output
+
+```{r}
+plot(cars)
+```
+
+Show only output
+
+```{r echo=FALSE}
+plot(cars)
+```
+
+Show code only, don't run
+
+```{r eval=FALSE}
+plot(cars)
+```
+
+* Suppress warnings and messages, if needed.
+* Use cheatsheets
+* easy to add pictures, links, etc.
+* easy to add nice tables
+
+```{r, results='asis'}
+library(dplyr)
+data("mtcars")
+knitr::kable(mtcars, format = "html")
+print(xtable::xtable(mtcars), type = 'html')
+ mtcars %>%
+ 	DT::datatable(filter = 'top', 
+          options = list(scrollX = TRUE, keys = TRUE, pageLength = 5),  
+          rownames = FALSE)
+```
+
+* easy to share with collaborators
+
+## workflowr package
+* does the above steps automatically
+* keeps a nice folder structure
+* easy to use git 
+
+
+# Exercises:
+
+- set up git with Rstudio
+- set up your github account with workflowr
+- create a new project using wflow_start()
+- create a new markdown file in the analysis folder, my_first_project
+- load luad file from extdata
+
+- delete empty columns using a for cycle and if statements. 
+- modify days since birth that it appears in years. google the exact number of days in a year. 
+- Create tables for Diagnosis.Age, Sex, Race.Category and American.Joint.Committee.on.Cancer.Tumor.Stage.Code
+- do chi-sq test for American.Joint.Committee.on.Cancer.Tumor.Stage.Code and Sex Plot the data (e.g. barplot, counts by gender)
+- do linear regression for the Mutation.Count and stage, gender and age. show the results in table. Plot the data.
+
+
+
+
+
+
+

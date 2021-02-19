@@ -1,0 +1,26 @@
+---
+title: "Reproducible programming, exercises"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reproducible programming, exercises}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+- set up git with Rstudio
+- set up your github account with workflowr
+- create a new project using wflow_start()
+- create a new markdown file in the analysis folder, my_first_project
+- load luad file from extdata
+
+- delete empty columns 
+- modify days since birth that it appears in years. google the exact number of days in a year. 
+- Create tables for Diagnosis.Age, Sex, Race.Category and American.Joint.Committee.on.Cancer.Tumor.Stage.Code
+- do chi-sq test for American.Joint.Committee.on.Cancer.Tumor.Stage.Code and Sex Plot the data (e.g. barplot, counts by gender)
+- do linear regression for the Mutation.Count and stage, gender and age. show the results in table. Plot the data.
+
+```{r}
+
+```
+
