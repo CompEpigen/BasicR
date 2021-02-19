@@ -1,0 +1,39 @@
+---
+title: "Assignment"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Assignment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+## The tasks based on exercises from Reka:
+
+1. Create a workflowr project
+2. Set it up so it works with github. 
+3. Create a Markdown file in the analyis folder and solve the exercises from Rajbir. 
+4. Add the following code to the end of the Rmd file and set `eval=TRUE` (see the code in the assignment.Rmd file):
+
+```{r, echo = FALSE, out.width = "70%", eval=FALSE}
+knitr::include_graphics("https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/code_hero.jpg?raw=true", dpi = 100)
+```
+
+
+4. Publish and push the file to github. 
+5. Set up the github pages with the repository. 
+6. As the result of the assignment, send us the link of your webpage. 
+
+
+## Based on the exercises from Rajbir: [here](https://github.com/CompEpigen/BasicR/blob/master/markdown/Day3_3_MulitivariableRegression_Exercise.Rmd)
+
+
+7. Use the hfi dataset from the `openintro` package
+8. Fit a new model that uses  `pf_expression_control` to predict `hf_score`, or the total human freedom score.
+9. Again add region to the model from Q4. Compare the slope and $R^2$ with the model from Q4.
+
+10. Finally fit a model with `ef_money` and `pf_expression_control` as exposures and `hf_score` as outcome.  Compare the slope and $R^2$ from the models from Q1. Could `ef_money` be a confounder? 
+
+11. Use a linear regression model (and scatter plot) with  `ef_money` as exposure and `pf_expression_control` as outcome, to study whether `ef_money` has an association with `pf_expression_control` as well. This might validate our finding that `ef_money` is a confounder between  `pf_expression_control` as exposure and 
+`hf_score` as outcome from Q6.
+
