@@ -18,7 +18,7 @@ vignette: >
 
 ## nice tables in Rmarkdown
 
-`datatable` 
+`DT` 
 
 ## enrichment analysis 
 
@@ -28,7 +28,7 @@ vignette: >
 
 `annotatr`
 
-## Gene exoression, sequencing
+## Gene expression, sequencing
 
 `DESeq2`
 `EdgeR`
@@ -37,7 +37,7 @@ vignette: >
 
 `MAFtools`
 
-## Visualizatio genomic regions
+## Visualization genomic regions
 
 `Gviz`
 
