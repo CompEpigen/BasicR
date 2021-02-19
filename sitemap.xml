@@ -28,6 +28,9 @@
     <loc>https://CompEpigen.github.io/BasicR/articles/data_types_exercises_solutions.html</loc>
   </url>
   <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/enrichment.html</loc>
+  </url>
+  <url>
     <loc>https://CompEpigen.github.io/BasicR/articles/exercises_control_exercises.html</loc>
   </url>
   <url>
@@ -47,5 +50,14 @@
   </url>
   <url>
     <loc>https://CompEpigen.github.io/BasicR/articles/references.html</loc>
+  </url>
+  <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/reproducible.html</loc>
+  </url>
+  <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/reproducible_solutions.html</loc>
+  </url>
+  <url>
+    <loc>https://CompEpigen.github.io/BasicR/articles/set_up_git.html</loc>
   </url>
 </urlset>
