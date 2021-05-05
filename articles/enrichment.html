@@ -102,9 +102,6 @@
       <a href="../articles/references.html">References</a>
     </li>
     <li>
-      <a href="../articles/reproducible.html">Reproducible programming</a>
-    </li>
-    <li>
       <a href="../articles/reproducible_solutions.html">Reproducible programming, exercises</a>
     </li>
     <li>
@@ -146,10 +143,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/biomedical-knowledge-mining-book/">clusterProfiler</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## </code></pre>
-<pre><code>## Registered S3 method overwritten by 'treeio':
-##   method     from
-##   root.phylo ape</code></pre>
-<pre><code>## clusterProfiler v3.19.1  For help: https://guangchuangyu.github.io/software/clusterProfiler
+<pre><code>## clusterProfiler v3.99.2  For help: https://guangchuangyu.github.io/software/clusterProfiler
 ## 
 ## If you use clusterProfiler in published research, please cite:
 ## Guangchuang Yu, Li-Gen Wang, Yanyan Han, Qing-Yu He. clusterProfiler: an R package for comparing biological themes among gene clusters. OMICS: A Journal of Integrative Biology. 2012, 16(5):284-287.</code></pre>
@@ -158,7 +152,7 @@
 <pre><code>## The following object is masked from 'package:stats':
 ## 
 ##     filter</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: AnnotationDbi</code></pre>
 <pre><code>## Loading required package: stats4</code></pre>
@@ -209,7 +203,7 @@
 ## 
 ##     select</code></pre>
 <pre><code>## </code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">geneList</span>, package<span class="op">=</span><span class="st">"DOSE"</span><span class="op">)</span>
@@ -220,7 +214,7 @@
 <pre><code>## 'select()' returned 1:many mapping between keys and columns</code></pre>
 <pre><code>## Warning in bitr(gene, fromType = "ENTREZID", toType = c("ENSEMBL", "SYMBOL"), :
 ## 0.48% of input gene IDs are fail to map...</code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gene.df</span><span class="op">)</span></code></pre></div>
 <pre><code>##   ENTREZID         ENSEMBL SYMBOL
 ## 1     4312 ENSG00000196611   MMP1
@@ -229,7 +223,7 @@
 ## 4    55143 ENSG00000134690  CDCA8
 ## 5    55388 ENSG00000065328  MCM10
 ## 6      991 ENSG00000117399  CDC20</code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ego</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/clusterProfiler/man/enrichGO.html">enrichGO</a></span><span class="op">(</span>gene          <span class="op">=</span> <span class="va">gene</span>,
                 universe      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">geneList</span><span class="op">)</span>,
                 OrgDb         <span class="op">=</span> <span class="va">org.Hs.eg.db</span>,
@@ -267,11 +261,9 @@
 ## GO:0000779    15
 ## GO:0000775    18
 ## GO:0000776    15</code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html">dotplot</a></span><span class="op">(</span><span class="va">ego</span>, showCategory<span class="op">=</span><span class="fl">30</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"dotplot for GO"</span><span class="op">)</span></code></pre></div>
-<pre><code>## wrong orderBy parameter; set to default `orderBy = "x"`</code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p2</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html">dotplot</a></span><span class="op">(</span><span class="va">ego</span>, showCategory<span class="op">=</span><span class="fl">30</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"dotplot for GO"</span><span class="op">)</span>
+<span class="va">p2</span></code></pre></div>
 <p><img src="enrichment_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
   </div>
 
