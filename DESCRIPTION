@@ -43,7 +43,9 @@ Suggests:
     Glimma, 
     clusterProfiler, 
     DOSE, 
-    org.Hs.eg.db
+    org.Hs.eg.db, 
+    RnBeads,
+    RnBeads.hg19
 VignetteBuilder: knitr
 URL: https://github.com/CompEpigen/BasicR
 BugReports: https://github.com/CompEpigen/BasicR/issues
