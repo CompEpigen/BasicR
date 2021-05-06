@@ -45,7 +45,9 @@ Suggests:
     DOSE, 
     org.Hs.eg.db, 
     RnBeads,
-    RnBeads.hg19
+    RnBeads.hg19,
+    methrix,
+    annotatr
 VignetteBuilder: knitr
 URL: https://github.com/CompEpigen/BasicR
 BugReports: https://github.com/CompEpigen/BasicR/issues
