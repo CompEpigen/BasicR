@@ -209,14 +209,14 @@ c(gr1, gr3)
 ### Comapring 2 GRanges
 
 ```{r}
-union(gr2, gr4)
+#union(gr2, gr4)
 
 #intersect(gr2, gr4)
-setdiff(gr2, gr4)
+#setdiff(gr2, gr4)
 
-hits <- findOverlaps(gr2, gr4, ignore.strand=TRUE)
-countOverlaps(gr2, gr4, ignore.strand=TRUE)
-subsetByOverlaps(gr2, gr4)
+#hits <- findOverlaps(gr2, gr4, ignore.strand=TRUE)
+#countOverlaps(gr2, gr4, ignore.strand=TRUE)
+#subsetByOverlaps(gr2, gr4)
 
 
 ```
