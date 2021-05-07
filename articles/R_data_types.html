@@ -96,10 +96,16 @@
       <a href="../articles/intro.html">Course introduction</a>
     </li>
     <li>
+      <a href="../articles/methylation_analysisRmd.html">Annotating the results of Array-based DNA methylation data</a>
+    </li>
+    <li>
       <a href="../articles/r_functions.html">Functions, useful packages</a>
     </li>
     <li>
       <a href="../articles/references.html">References</a>
+    </li>
+    <li>
+      <a href="../articles/reproducible.html">Reproducible programming</a>
     </li>
     <li>
       <a href="../articles/reproducible_solutions.html">Reproducible programming, exercises</a>
@@ -689,7 +695,7 @@
 <div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">current_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">current_date</span></code></pre></div>
-<pre><code>## [1] "2021-05-07 07:55:20 UTC"</code></pre>
+<pre><code>## [1] "2021-05-07 09:23:28 UTC"</code></pre>
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">current_date</span>, <span class="st">"%d %b %Y"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "07 May 2021"</code></pre>
@@ -856,24 +862,24 @@
 <span class="va">num_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">10</span>, ncol<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>   </code></pre></div>
-<pre><code>##  [1] 0.4348758 0.5458287 0.5007728 0.5031322 0.6184277 0.5972804 0.4516438
-##  [8] 0.4266788 0.5491770 0.5365737</code></pre>
+<pre><code>##  [1] 0.5537849 0.5104701 0.4483572 0.4573370 0.4705051 0.5576114 0.4747559
+##  [8] 0.6315580 0.4261982 0.3760953</code></pre>
 <div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">matrixStats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/matrixStats/man/rowMeans2.html">rowMeans2</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.4348758 0.5458287 0.5007728 0.5031322 0.6184277 0.5972804 0.4516438
-##  [8] 0.4266788 0.5491770 0.5365737</code></pre>
+<pre><code>##  [1] 0.5537849 0.5104701 0.4483572 0.4573370 0.4705051 0.5576114 0.4747559
+##  [8] 0.6315580 0.4261982 0.3760953</code></pre>
 <div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>    </code></pre></div>
-<pre><code>##  [1] 4.348758 5.458287 5.007728 5.031322 6.184277 5.972804 4.516438 4.266788
-##  [9] 5.491770 5.365737</code></pre>
+<pre><code>##  [1] 5.537849 5.104701 4.483572 4.573370 4.705051 5.576114 4.747559 6.315580
+##  [9] 4.261982 3.760953</code></pre>
 <div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.5279006 0.4447008 0.4517767 0.5593969 0.6207680 0.4857489 0.4571790
-##  [8] 0.5546143 0.4209921 0.6413135</code></pre>
+<pre><code>##  [1] 0.5879683 0.5693501 0.3580645 0.4077061 0.5715438 0.3225014 0.4858095
+##  [8] 0.4974807 0.6395245 0.4667241</code></pre>
 <div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">num_mat</span><span class="op">)</span>    </code></pre></div>
-<pre><code>##  [1] 5.279006 4.447008 4.517767 5.593969 6.207680 4.857489 4.571790 5.546143
-##  [9] 4.209921 6.413135</code></pre>
+<pre><code>##  [1] 5.879683 5.693501 3.580645 4.077061 5.715438 3.225014 4.858095 4.974807
+##  [9] 6.395245 4.667241</code></pre>
 </div>
 <div id="data-frame" class="section level2">
 <h2 class="hasAnchor">

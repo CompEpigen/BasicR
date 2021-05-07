@@ -96,10 +96,16 @@
       <a href="../articles/intro.html">Course introduction</a>
     </li>
     <li>
+      <a href="../articles/methylation_analysisRmd.html">Annotating the results of Array-based DNA methylation data</a>
+    </li>
+    <li>
       <a href="../articles/r_functions.html">Functions, useful packages</a>
     </li>
     <li>
       <a href="../articles/references.html">References</a>
+    </li>
+    <li>
+      <a href="../articles/reproducible.html">Reproducible programming</a>
     </li>
     <li>
       <a href="../articles/reproducible_solutions.html">Reproducible programming, exercises</a>
@@ -691,70 +697,20 @@
 <h3 class="hasAnchor">
 <a href="#comapring-2-granges" class="anchor"></a>Comapring 2 GRanges</h3>
 <div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/setops-methods.html">union</a></span><span class="op">(</span><span class="va">gr2</span>, <span class="va">gr4</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in .Seqinfo.mergexy(x, y): Each of the 2 combined objects has sequence levels not in the other:
-##   - in 'x': chr3
-##   - in 'y': chr2
-##   Make sure to always combine/compare objects based on the same reference
-##   genome (use suppressWarnings() to suppress this warning).</code></pre>
-<pre><code>## GRanges object with 4 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1   107-109      +
-##   [2]     chr1   104-108      *
-##   [3]     chr3   113-115      -
-##   [4]     chr2   104-105      *
-##   -------
-##   seqinfo: 3 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#intersect(gr2, gr4)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/setops-methods.html">setdiff</a></span><span class="op">(</span><span class="va">gr2</span>, <span class="va">gr4</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in .Seqinfo.mergexy(x, y): Each of the 2 combined objects has sequence levels not in the other:
-##   - in 'x': chr3
-##   - in 'y': chr2
-##   Make sure to always combine/compare objects based on the same reference
-##   genome (use suppressWarnings() to suppress this warning).</code></pre>
-<pre><code>## GRanges object with 2 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1   107-109      +
-##   [2]     chr3   113-115      -
-##   -------
-##   seqinfo: 3 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/findOverlaps-methods.html">findOverlaps</a></span><span class="op">(</span><span class="va">gr2</span>, <span class="va">gr4</span>, ignore.strand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in .Seqinfo.mergexy(x, y): Each of the 2 combined objects has sequence levels not in the other:
-##   - in 'x': chr3
-##   - in 'y': chr2
-##   Make sure to always combine/compare objects based on the same reference
-##   genome (use suppressWarnings() to suppress this warning).</code></pre>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/findOverlaps-methods.html">countOverlaps</a></span><span class="op">(</span><span class="va">gr2</span>, <span class="va">gr4</span>, ignore.strand<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in .Seqinfo.mergexy(x, y): Each of the 2 combined objects has sequence levels not in the other:
-##   - in 'x': chr3
-##   - in 'y': chr2
-##   Make sure to always combine/compare objects based on the same reference
-##   genome (use suppressWarnings() to suppress this warning).</code></pre>
-<pre><code>## [1] 1 0</code></pre>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/findOverlaps-methods.html">subsetByOverlaps</a></span><span class="op">(</span><span class="va">gr2</span>, <span class="va">gr4</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in .Seqinfo.mergexy(x, y): Each of the 2 combined objects has sequence levels not in the other:
-##   - in 'x': chr3
-##   - in 'y': chr2
-##   Make sure to always combine/compare objects based on the same reference
-##   genome (use suppressWarnings() to suppress this warning).</code></pre>
-<pre><code>## GRanges object with 1 range and 2 metadata columns:
-##       seqnames    ranges strand |     score        GC
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;numeric&gt;
-##   [1]     chr1   107-109      + |         3       0.3
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<code class="sourceCode R"><span class="co">#union(gr2, gr4)</span>
+
+<span class="co">#intersect(gr2, gr4)</span>
+<span class="co">#setdiff(gr2, gr4)</span>
+
+<span class="co">#hits &lt;- findOverlaps(gr2, gr4, ignore.strand=TRUE)</span>
+<span class="co">#countOverlaps(gr2, gr4, ignore.strand=TRUE)</span>
+<span class="co">#subsetByOverlaps(gr2, gr4)</span></code></pre></div>
 </div>
 </div>
 <div id="deseq2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#deseq2" class="anchor"></a>DeSeq2</h2>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"pasilla"</span><span class="op">)</span>
 <span class="va">pasCts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,
                       <span class="st">"pasilla_gene_counts.tsv"</span>,
@@ -775,7 +731,7 @@
                               design <span class="op">=</span> <span class="op">~</span> <span class="va">condition</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in DESeqDataSet(se, design = design, ignoreRank): some variables in
 ## design formula are characters, converting to factors</code></pre>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dds</span></code></pre></div>
 <pre><code>## class: DESeqDataSet 
 ## dim: 14599 7 
@@ -785,7 +741,7 @@
 ## rowData names(0):
 ## colnames(7): treated1 treated2 ... untreated3 untreated4
 ## colData names(2): condition type</code></pre>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dds</span> <span class="op">&lt;-</span> <span class="va">dds</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>,<span class="op">]</span>
 <span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span></code></pre></div>
 <pre><code>## estimating size factors</code></pre>
@@ -794,7 +750,7 @@
 <pre><code>## mean-dispersion relationship</code></pre>
 <pre><code>## final dispersion estimates</code></pre>
 <pre><code>## fitting model and testing</code></pre>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span>
 <span class="va">res</span></code></pre></div>
 <pre><code>## log2 fold change (MLE): condition untreated vs treated 

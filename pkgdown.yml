@@ -16,11 +16,13 @@ articles:
   functions_exercises: functions_exercises.html
   functions_exercises_solutions: functions_exercises_solutions.html
   intro: intro.html
+  methylation_analysisRmd: methylation_analysisRmd.html
   r_functions: r_functions.html
   references: references.html
+  reproducible: reproducible.html
   reproducible_solutions: reproducible_solutions.html
   set_up_git: set_up_git.html
-last_built: 2021-05-07T07:55Z
+last_built: 2021-05-07T09:23Z
 urls:
   reference: https://CompEpigen.github.io/BasicR/reference
   article: https://CompEpigen.github.io/BasicR/articles
