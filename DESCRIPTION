@@ -45,7 +45,13 @@ Suggests:
     DOSE, 
     org.Hs.eg.db, 
     RnBeads,
-    RnBeads.hg19
+    RnBeads.hg19, 
+    data.table,
+    annotatr,
+    rtracklayer,
+    ChIPseeker, 
+    TxDb.Hsapiens.UCSC.hg19.knownGene,
+    clusterProfiler
 VignetteBuilder: knitr
 URL: https://github.com/CompEpigen/BasicR
 BugReports: https://github.com/CompEpigen/BasicR/issues
