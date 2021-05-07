@@ -127,7 +127,7 @@
 
       
 
-      </header><script src="enrichment_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="enrichment_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Enrichment analysis</h1>
@@ -234,32 +234,32 @@
         readable      <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ego</span><span class="op">)</span></code></pre></div>
 <pre><code>##                    ID                              Description GeneRatio
-## GO:0005819 GO:0005819                                  spindle    25/201
-## GO:0072686 GO:0072686                          mitotic spindle    16/201
-## GO:0005876 GO:0005876                      spindle microtubule    12/201
-## GO:0000779 GO:0000779 condensed chromosome, centromeric region    15/201
+## GO:0005819 GO:0005819                                  spindle    26/201
+## GO:0072686 GO:0072686                          mitotic spindle    17/201
 ## GO:0000775 GO:0000775           chromosome, centromeric region    18/201
+## GO:0098687 GO:0098687                       chromosomal region    23/201
+## GO:0000779 GO:0000779 condensed chromosome, centromeric region    14/201
 ## GO:0000776 GO:0000776                              kinetochore    15/201
 ##              BgRatio       pvalue     p.adjust       qvalue
-## GO:0005819 288/11841 1.770094e-11 4.167650e-09 3.831313e-09
-## GO:0072686 110/11841 4.495145e-11 4.167650e-09 3.831313e-09
-## GO:0005876  52/11841 4.691637e-11 4.167650e-09 3.831313e-09
-## GO:0000779  95/11841 5.556867e-11 4.167650e-09 3.831313e-09
-## GO:0000775 158/11841 1.712374e-10 1.027424e-08 9.445095e-09
-## GO:0000776 109/11841 4.151093e-10 1.841211e-08 1.692622e-08
-##                                                                                                                                                         geneID
-## GO:0005819 CDCA8/CDC20/KIF23/CENPE/ASPM/DLGAP5/SKA1/NUSAP1/TPX2/TACC3/NEK2/CDK1/MAD2L1/KIF18A/BIRC5/KIF11/TTK/AURKB/PRC1/KIFC1/KIF18B/KIF20A/AURKA/CCNB1/KIF4A
-## GO:0072686                                                      KIF23/CENPE/ASPM/SKA1/NUSAP1/TPX2/TACC3/CDK1/MAD2L1/KIF18A/KIF11/AURKB/PRC1/KIFC1/KIF18B/AURKA
-## GO:0005876                                                                             CENPE/SKA1/NUSAP1/CDK1/KIF18A/BIRC5/KIF11/AURKB/PRC1/KIF18B/AURKA/KIF4A
-## GO:0000779                                                            CENPE/NDC80/HJURP/SKA1/NEK2/CENPM/CENPN/ERCC6L/MAD2L1/CDT1/BIRC5/NCAPG/AURKB/AURKA/CCNB1
-## GO:0000775                                           CDCA8/CENPE/NDC80/HJURP/SKA1/NEK2/CENPM/CENPN/ERCC6L/MAD2L1/KIF18A/CDT1/BIRC5/TTK/NCAPG/AURKB/AURKA/CCNB1
-## GO:0000776                                                             CENPE/NDC80/HJURP/SKA1/NEK2/CENPM/CENPN/ERCC6L/MAD2L1/KIF18A/CDT1/BIRC5/TTK/AURKB/CCNB1
+## GO:0005819 299/11840 6.490593e-12 1.908234e-09 1.735380e-09
+## GO:0072686 129/11840 5.480692e-11 8.056617e-09 7.326819e-09
+## GO:0000775 156/11840 1.385677e-10 1.206452e-08 1.097168e-08
+## GO:0098687 269/11840 1.641432e-10 1.206452e-08 1.097168e-08
+## GO:0000779  90/11840 3.056082e-10 1.796976e-08 1.634199e-08
+## GO:0000776 109/11840 4.155863e-10 2.036373e-08 1.851911e-08
+##                                                                                                                                                               geneID
+## GO:0005819 CDCA8/CDC20/KIF23/CENPE/ASPM/DLGAP5/SKA1/NUSAP1/TPX2/TACC3/NEK2/CDK1/MAD2L1/KIF18A/BIRC5/KIF11/TRAT1/TTK/AURKB/PRC1/KIFC1/KIF18B/KIF20A/AURKA/CCNB1/KIF4A
+## GO:0072686                                                      KIF23/CENPE/ASPM/SKA1/NUSAP1/TPX2/TACC3/CDK1/MAD2L1/KIF18A/KIF11/TRAT1/AURKB/PRC1/KIFC1/KIF18B/AURKA
+## GO:0000775                                                 CDCA8/CENPE/NDC80/TOP2A/HJURP/SKA1/NEK2/CENPM/CENPN/ERCC6L/MAD2L1/KIF18A/CDT1/BIRC5/TTK/NCAPG/AURKB/CCNB1
+## GO:0098687                   CDCA8/CENPE/NDC80/TOP2A/HJURP/SKA1/NEK2/CENPM/RAD51AP1/CENPN/CDK1/ERCC6L/MAD2L1/KIF18A/CDT1/BIRC5/EZH2/TTK/NCAPG/AURKB/CHEK1/CCNB1/MCM5
+## GO:0000779                                                                        CENPE/NDC80/HJURP/SKA1/NEK2/CENPM/CENPN/ERCC6L/MAD2L1/CDT1/BIRC5/NCAPG/AURKB/CCNB1
+## GO:0000776                                                                   CENPE/NDC80/HJURP/SKA1/NEK2/CENPM/CENPN/ERCC6L/MAD2L1/KIF18A/CDT1/BIRC5/TTK/AURKB/CCNB1
 ##            Count
-## GO:0005819    25
-## GO:0072686    16
-## GO:0005876    12
-## GO:0000779    15
+## GO:0005819    26
+## GO:0072686    17
 ## GO:0000775    18
+## GO:0098687    23
+## GO:0000779    14
 ## GO:0000776    15</code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html">dotplot</a></span><span class="op">(</span><span class="va">ego</span>, showCategory<span class="op">=</span><span class="fl">30</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"dotplot for GO"</span><span class="op">)</span>
